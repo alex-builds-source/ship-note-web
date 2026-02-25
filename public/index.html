@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>ship-note web</title>
+    <style>
+      :root { color-scheme: light dark; }
+      body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 24px auto; max-width: 920px; padding: 0 16px; }
+      h1 { margin-bottom: 8px; }
+      .muted { opacity: 0.8; margin-bottom: 20px; }
+      form { display: grid; gap: 12px; margin-bottom: 16px; }
+      label { display: grid; gap: 6px; font-weight: 600; }
+      input, select, button, textarea { font: inherit; padding: 10px; border-radius: 8px; border: 1px solid #8884; }
+      .row { display: grid; grid-template-columns: 1fr 180px; gap: 12px; }
+      .row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+      textarea { width: 100%; min-height: 360px; }
+      .actions { display: flex; gap: 10px; align-items: center; }
+      .status { font-size: 14px; opacity: 0.85; }
+    </style>
+  </head>
+  <body>
+    <h1>ship-note web</h1>
+    <p class="muted">Generate concise release/devlog drafts from public GitHub repositories.</p>
+
+    <form id="draft-form">
+      <div class="row">
+        <label>
+          GitHub repository URL or owner/repo
+          <input id="repo" name="repo" placeholder="https://github.com/alex-builds-source/ship-note" required />
+        </label>
+        <label>
+          Preset
+          <select id="preset" name="preset">
+            <option value="standard">standard</option>
+            <option value="short">short</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="row3">
+        <label>
+          Base ref/tag (optional)
+          <input id="baseRef" name="baseRef" placeholder="v0.1.8" />
+        </label>
+        <label>
+          Release URL (optional)
+          <input id="releaseUrl" name="releaseUrl" placeholder="https://github.com/.../releases/tag/vX.Y.Z" />
+        </label>
+        <div class="actions" style="align-self:end;">
+          <button type="submit" id="generate">Generate draft</button>
+          <button type="button" id="copy">Copy</button>
+        </div>
+      </div>
+    </form>
+
+    <p class="status" id="status">Ready.</p>
+    <textarea id="output" placeholder="Draft markdown appears here"></textarea>
+
+    <script type="module">
+      const form = document.getElementById('draft-form');
+      const statusEl = document.getElementById('status');
+      const output = document.getElementById('output');
+      const copyBtn = document.getElementById('copy');
+
+      const setStatus = (text) => { statusEl.textContent = text; };
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        setStatus('Generating…');
+
+        const payload = {
+          repo: document.getElementById('repo').value.trim(),
+          preset: document.getElementById('preset').value,
+          baseRef: document.getElementById('baseRef').value.trim(),
+          releaseUrl: document.getElementById('releaseUrl').value.trim(),
+        };
+
+        try {
+          const resp = await fetch('/api/generate', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+          const data = await resp.json();
+          if (!resp.ok || !data.ok) throw new Error(data.error || 'generation failed');
+
+          output.value = data.markdown;
+          setStatus(`Done: ${data.repo} • commits=${data.commitCount} • base=${data.baseRef || 'none'}`);
+        } catch (err) {
+          setStatus(`Error: ${err.message || err}`);
+        }
+      });
+
+      copyBtn.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(output.value || '');
+          setStatus('Copied draft to clipboard.');
+        } catch {
+          setStatus('Copy failed.');
+        }
+      });
+    </script>
+  </body>
+</html>

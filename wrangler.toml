@@ -1,0 +1,6 @@
+name = "ship-note-web"
+compatibility_date = "2026-02-25"
+pages_build_output_dir = "public"
+
+[vars]
+APP_NAME = "ship-note-web"
