@@ -5,81 +5,445 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>ship-note web</title>
     <style>
-      :root { color-scheme: light dark; }
-      body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 24px auto; max-width: 920px; padding: 0 16px; }
-      h1 { margin-bottom: 8px; }
-      .muted { opacity: 0.8; margin-bottom: 20px; }
-      form { display: grid; gap: 12px; margin-bottom: 16px; }
-      label { display: grid; gap: 6px; font-weight: 600; }
-      input, select, button, textarea { font: inherit; padding: 10px; border-radius: 8px; border: 1px solid #8884; }
-      .row { display: grid; grid-template-columns: 1fr 180px; gap: 12px; }
-      .row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
-      textarea { width: 100%; min-height: 360px; }
-      .actions { display: flex; gap: 10px; align-items: center; }
-      .status { font-size: 14px; opacity: 0.85; }
+      :root {
+        --bg: #0b1020;
+        --panel: #131a2c;
+        --panel-soft: #1a2340;
+        --text: #eef2ff;
+        --muted: #b4bfd8;
+        --accent: #7c8cff;
+        --accent-2: #6ee7f9;
+        --ok: #34d399;
+        --warn: #fbbf24;
+        --border: #ffffff20;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(1200px 700px at 10% -10%, #3a4fbf66, transparent 50%),
+          radial-gradient(900px 600px at 90% -20%, #00d4ff33, transparent 45%),
+          var(--bg);
+        min-height: 100vh;
+      }
+
+      .wrap {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 28px 16px 36px;
+      }
+
+      .hero {
+        background: linear-gradient(145deg, #1b2550aa, #121a35ee);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 18px;
+        margin-bottom: 16px;
+        box-shadow: 0 12px 30px #00000055;
+      }
+
+      .kicker {
+        display: inline-flex;
+        gap: 8px;
+        align-items: center;
+        font-size: 12px;
+        color: var(--muted);
+        padding: 5px 10px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: #0f153055;
+      }
+
+      h1 {
+        margin: 12px 0 8px;
+        font-size: clamp(1.6rem, 2.8vw, 2.1rem);
+      }
+
+      .sub {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .lane-grid {
+        margin-top: 14px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 10px;
+      }
+
+      .lane {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 10px 12px;
+        background: #0d143055;
+      }
+
+      .lane strong { font-size: 13px; display: block; margin-bottom: 4px; }
+      .lane p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.35; }
+
+      .good strong { color: var(--ok); }
+      .warn strong { color: var(--warn); }
+
+      .layout {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      @media (min-width: 980px) {
+        .layout {
+          grid-template-columns: 420px 1fr;
+          align-items: start;
+        }
+      }
+
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 14px;
+      }
+
+      .panel h2 {
+        margin: 2px 0 10px;
+        font-size: 1.02rem;
+      }
+
+      form {
+        display: grid;
+        gap: 10px;
+      }
+
+      label {
+        display: grid;
+        gap: 6px;
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      input, select, button, textarea {
+        font: inherit;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+      }
+
+      input, select, textarea {
+        width: 100%;
+        padding: 10px 11px;
+        background: #0d1430;
+        color: var(--text);
+      }
+
+      .row2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+
+      .actions, .sample-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      button {
+        cursor: pointer;
+        padding: 9px 12px;
+        color: var(--text);
+        background: #212d55;
+      }
+
+      button.primary {
+        background: linear-gradient(135deg, var(--accent), #6b7dff);
+        border-color: #8392ff;
+        color: #fff;
+        font-weight: 600;
+      }
+
+      button.ghost {
+        background: transparent;
+      }
+
+      button:hover { filter: brightness(1.08); }
+
+      .small {
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .status {
+        margin: 0;
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      .tabs {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+
+      .tab.active {
+        background: #2a3970;
+        border-color: #6d84ff;
+      }
+
+      .output {
+        min-height: 460px;
+      }
+
+      textarea.output {
+        resize: vertical;
+      }
+
+      #preview {
+        display: none;
+        min-height: 460px;
+        overflow: auto;
+        white-space: pre-wrap;
+        line-height: 1.45;
+        background: #0d1430;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 14px;
+      }
+
+      #preview h1, #preview h2, #preview h3 { margin: 0.6em 0 0.35em; }
+      #preview ul { margin: 0.4em 0 0.6em 1.1em; padding: 0; }
+      #preview code {
+        background: #223067;
+        border: 1px solid #ffffff22;
+        border-radius: 6px;
+        padding: 1px 5px;
+      }
     </style>
   </head>
   <body>
-    <h1>ship-note web</h1>
-    <p class="muted">Generate concise release/devlog drafts from public GitHub repositories.</p>
+    <main class="wrap">
+      <section class="hero">
+        <span class="kicker">ship-note web · Cloudflare preview</span>
+        <h1>Generate channel-ready release drafts in seconds</h1>
+        <p class="sub">Best for commit-centric repos and fast devlog/social drafting. Transparent note: for mature PR-centric workflows, GitHub Auto Notes usually performs better.</p>
 
-    <form id="draft-form">
-      <div class="row">
-        <label>
-          GitHub repository URL or owner/repo
-          <input id="repo" name="repo" placeholder="https://github.com/alex-builds-source/ship-note" required />
-        </label>
-        <label>
-          Preset
-          <select id="preset" name="preset">
-            <option value="standard">standard</option>
-            <option value="short">short</option>
-          </select>
-        </label>
-      </div>
+        <div class="lane-grid">
+          <div class="lane good">
+            <strong>✅ Use ship-note web when…</strong>
+            <p>You rely on commit history/changelog context and want short, editable drafts for posts, changelogs, and internal updates.</p>
+          </div>
+          <div class="lane warn">
+            <strong>⚠️ Prefer GitHub Auto Notes when…</strong>
+            <p>Your repo is PR-centric (labels/categories + rich PR bodies) and you mainly need release-page notes.</p>
+          </div>
+        </div>
+      </section>
 
-      <div class="row3">
-        <label>
-          Base ref/tag (optional)
-          <input id="baseRef" name="baseRef" placeholder="v0.1.8" />
-        </label>
-        <label>
-          Target ref/tag (optional, default HEAD)
-          <input id="targetRef" name="targetRef" placeholder="v0.1.9" />
-        </label>
-        <label>
-          Release URL (optional)
-          <input id="releaseUrl" name="releaseUrl" placeholder="https://github.com/.../releases/tag/vX.Y.Z" />
-        </label>
-      </div>
+      <section class="layout">
+        <div class="panel">
+          <h2>Draft inputs</h2>
+          <form id="draft-form">
+            <label>
+              Repository URL or owner/repo
+              <input id="repo" name="repo" placeholder="https://github.com/alex-builds-source/ship-note" required />
+            </label>
 
-      <div class="actions">
-        <button type="submit" id="generate">Generate draft</button>
-        <button type="button" id="copy">Copy</button>
-      </div>
-    </form>
+            <div class="row2">
+              <label>
+                Preset
+                <select id="preset" name="preset">
+                  <option value="standard">standard</option>
+                  <option value="short">short</option>
+                </select>
+              </label>
+              <label>
+                Base ref/tag
+                <input id="baseRef" name="baseRef" placeholder="v0.1.8" />
+              </label>
+            </div>
 
-    <p class="status" id="status">Ready.</p>
-    <textarea id="output" placeholder="Draft markdown appears here"></textarea>
+            <div class="row2">
+              <label>
+                Target ref/tag
+                <input id="targetRef" name="targetRef" placeholder="v0.1.9" />
+              </label>
+              <label>
+                Release URL (optional)
+                <input id="releaseUrl" name="releaseUrl" placeholder="https://github.com/.../releases/tag/vX.Y.Z" />
+              </label>
+            </div>
+
+            <div class="sample-actions">
+              <button class="ghost" type="button" data-sample="ship-note">Sample: ship-note</button>
+              <button class="ghost" type="button" data-sample="repo-preflight">Sample: repo-preflight</button>
+              <button class="ghost" type="button" data-sample="notes-bench-pr">Sample: PR-centric benchmark</button>
+            </div>
+
+            <div class="actions">
+              <button class="primary" type="submit" id="generate">Generate draft</button>
+              <button class="ghost" type="button" id="copy">Copy</button>
+              <button class="ghost" type="button" id="share">Copy share link</button>
+            </div>
+          </form>
+
+          <p class="status" id="status">Ready.</p>
+          <p class="small">Tip: fill base/target tags for exact release-range comparisons.</p>
+        </div>
+
+        <div class="panel">
+          <div class="tabs">
+            <button type="button" class="tab active" data-view="raw">Raw markdown</button>
+            <button type="button" class="tab" data-view="preview">Preview</button>
+          </div>
+
+          <textarea id="output" class="output" placeholder="Draft markdown appears here"></textarea>
+          <article id="preview" class="output" aria-live="polite"></article>
+        </div>
+      </section>
+    </main>
 
     <script type="module">
       const form = document.getElementById('draft-form');
       const statusEl = document.getElementById('status');
       const output = document.getElementById('output');
+      const preview = document.getElementById('preview');
       const copyBtn = document.getElementById('copy');
+      const shareBtn = document.getElementById('share');
+      const tabButtons = [...document.querySelectorAll('.tab')];
+      const sampleButtons = [...document.querySelectorAll('[data-sample]')];
+
+      const fields = {
+        repo: document.getElementById('repo'),
+        preset: document.getElementById('preset'),
+        baseRef: document.getElementById('baseRef'),
+        targetRef: document.getElementById('targetRef'),
+        releaseUrl: document.getElementById('releaseUrl'),
+      };
 
       const setStatus = (text) => { statusEl.textContent = text; };
+
+      const escapeHtml = (str) => str
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;');
+
+      function markdownToHtml(md) {
+        const lines = String(md || '').split(/\r?\n/);
+        const out = [];
+        let inList = false;
+
+        const flushList = () => {
+          if (inList) {
+            out.push('</ul>');
+            inList = false;
+          }
+        };
+
+        for (const lineRaw of lines) {
+          const line = lineRaw.trimEnd();
+
+          if (!line.trim()) {
+            flushList();
+            continue;
+          }
+
+          if (line.startsWith('- ')) {
+            if (!inList) {
+              out.push('<ul>');
+              inList = true;
+            }
+            out.push(`<li>${escapeHtml(line.slice(2))}</li>`);
+            continue;
+          }
+
+          flushList();
+
+          if (line.startsWith('### ')) out.push(`<h3>${escapeHtml(line.slice(4))}</h3>`);
+          else if (line.startsWith('## ')) out.push(`<h2>${escapeHtml(line.slice(3))}</h2>`);
+          else if (line.startsWith('# ')) out.push(`<h1>${escapeHtml(line.slice(2))}</h1>`);
+          else out.push(`<p>${escapeHtml(line)}</p>`);
+        }
+
+        flushList();
+        return out.join('\n');
+      }
+
+      function updatePreview() {
+        preview.innerHTML = markdownToHtml(output.value);
+      }
+
+      function setView(view) {
+        const raw = view === 'raw';
+        output.style.display = raw ? 'block' : 'none';
+        preview.style.display = raw ? 'none' : 'block';
+        tabButtons.forEach((btn) => btn.classList.toggle('active', btn.dataset.view === view));
+        if (!raw) updatePreview();
+      }
+
+      function hydrateFromUrl() {
+        const p = new URLSearchParams(window.location.search);
+        fields.repo.value = p.get('repo') || '';
+        fields.preset.value = p.get('preset') || 'standard';
+        fields.baseRef.value = p.get('baseRef') || '';
+        fields.targetRef.value = p.get('targetRef') || '';
+        fields.releaseUrl.value = p.get('releaseUrl') || '';
+      }
+
+      function updateUrlState() {
+        const p = new URLSearchParams();
+        for (const [k, el] of Object.entries(fields)) {
+          const v = el.value.trim();
+          if (v) p.set(k, v);
+        }
+        const next = `${window.location.pathname}${p.toString() ? `?${p}` : ''}`;
+        history.replaceState(null, '', next);
+      }
+
+      function applySample(kind) {
+        const presets = {
+          'ship-note': {
+            repo: 'alex-builds-source/ship-note',
+            preset: 'standard',
+            baseRef: 'v0.1.8',
+            targetRef: 'v0.1.9',
+            releaseUrl: 'https://github.com/alex-builds-source/ship-note/releases/tag/v0.1.9',
+          },
+          'repo-preflight': {
+            repo: 'alex-builds-source/repo-preflight',
+            preset: 'standard',
+            baseRef: 'v0.1.10',
+            targetRef: 'v0.1.11',
+            releaseUrl: 'https://github.com/alex-builds-source/repo-preflight/releases/tag/v0.1.11',
+          },
+          'notes-bench-pr': {
+            repo: 'alex-builds-source/notes-bench-pr',
+            preset: 'standard',
+            baseRef: 'v0.1.9',
+            targetRef: 'v0.1.10',
+            releaseUrl: 'https://github.com/alex-builds-source/notes-bench-pr/releases/tag/v0.1.10',
+          },
+        };
+
+        const v = presets[kind];
+        if (!v) return;
+        Object.entries(v).forEach(([k, value]) => { fields[k].value = value; });
+        updateUrlState();
+        setStatus(`Loaded sample: ${kind}`);
+      }
 
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
         setStatus('Generating…');
+        updateUrlState();
 
         const payload = {
-          repo: document.getElementById('repo').value.trim(),
-          preset: document.getElementById('preset').value,
-          baseRef: document.getElementById('baseRef').value.trim(),
-          targetRef: document.getElementById('targetRef').value.trim(),
-          releaseUrl: document.getElementById('releaseUrl').value.trim(),
+          repo: fields.repo.value.trim(),
+          preset: fields.preset.value,
+          baseRef: fields.baseRef.value.trim(),
+          targetRef: fields.targetRef.value.trim(),
+          releaseUrl: fields.releaseUrl.value.trim(),
         };
 
         try {
@@ -92,6 +456,7 @@
           if (!resp.ok || !data.ok) throw new Error(data.error || 'generation failed');
 
           output.value = data.markdown;
+          updatePreview();
           setStatus(`Done: ${data.repo} • commits=${data.commitCount} • range=${data.baseRef || 'none'}..${data.targetRef || 'HEAD'}`);
         } catch (err) {
           setStatus(`Error: ${err.message || err}`);
@@ -106,6 +471,22 @@
           setStatus('Copy failed.');
         }
       });
+
+      shareBtn.addEventListener('click', async () => {
+        try {
+          updateUrlState();
+          await navigator.clipboard.writeText(window.location.href);
+          setStatus('Copied share link.');
+        } catch {
+          setStatus('Could not copy share link.');
+        }
+      });
+
+      tabButtons.forEach((btn) => btn.addEventListener('click', () => setView(btn.dataset.view)));
+      sampleButtons.forEach((btn) => btn.addEventListener('click', () => applySample(btn.dataset.sample)));
+
+      hydrateFromUrl();
+      if (fields.repo.value) setStatus('Loaded state from URL. Click Generate to refresh output.');
     </script>
   </body>
 </html>
