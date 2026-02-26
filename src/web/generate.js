@@ -85,26 +85,80 @@ export function extractChangelogBullets(markdown, maxItems = 6) {
 
 function dedupeBullets(commitSubjects, changelogItems, maxBullets) {
   const seen = new Set();
-  const out = [];
+  const bullets = [];
+  let fromCommit = 0;
+  let fromChangelog = 0;
 
   for (const subject of commitSubjects) {
     const item = normalizeSubject(subject);
     const key = canonical(item);
     if (!key || seen.has(key)) continue;
     seen.add(key);
-    out.push(`- ${item}`);
-    if (out.length >= maxBullets) return out;
+    bullets.push(`- ${item}`);
+    fromCommit += 1;
+    if (bullets.length >= maxBullets) return { bullets, fromCommit, fromChangelog };
   }
 
   for (const item of changelogItems) {
     const key = canonical(item);
     if (!key || seen.has(key)) continue;
     seen.add(key);
-    out.push(`- ${item}`);
-    if (out.length >= maxBullets) return out;
+    bullets.push(`- ${item}`);
+    fromChangelog += 1;
+    if (bullets.length >= maxBullets) return { bullets, fromCommit, fromChangelog };
   }
 
-  return out;
+  return { bullets, fromCommit, fromChangelog };
+}
+
+function classifySubject(subject) {
+  const m = String(subject || "").trim().match(/^([a-z]+)(\([^)]*\))?!?:\s/i);
+  if (!m) return "other";
+  const kind = m[1].toLowerCase();
+  if (["feat", "fix", "perf", "refactor", "docs", "chore", "test"].includes(kind)) return kind;
+  return "other";
+}
+
+function buildWhyLines({ subjects, fromCommit, fromChangelog, rangeLabel }) {
+  if (fromCommit === 0 && fromChangelog === 0) {
+    return [`- No substantive draft items were found for \`${rangeLabel}\`; this range may be unchanged or maintenance-only.`];
+  }
+
+  const lines = [`- Covers \`${rangeLabel}\` with ${fromCommit} commit-derived item(s).`];
+
+  const counts = {
+    feat: 0,
+    fix: 0,
+    perf: 0,
+    refactor: 0,
+    docs: 0,
+    chore: 0,
+    test: 0,
+    other: 0,
+  };
+
+  for (const subject of subjects) counts[classifySubject(subject)] += 1;
+
+  const impact = [];
+  if (counts.feat) impact.push(`${counts.feat} feature ${counts.feat === 1 ? "addition" : "additions"}`);
+  if (counts.fix) impact.push(`${counts.fix} bug ${counts.fix === 1 ? "fix" : "fixes"}`);
+  if (counts.perf) impact.push(`${counts.perf} performance ${counts.perf === 1 ? "improvement" : "improvements"}`);
+
+  if (impact.length > 0) {
+    lines.push(`- Highlights ${impact.join(", ")} so readers can quickly understand user-facing impact.`);
+  } else if (counts.docs >= Math.max(1, fromCommit - 1)) {
+    lines.push("- Mostly documentation-oriented updates; useful for keeping usage guidance aligned.");
+  } else if ((counts.chore + counts.test + counts.refactor) >= Math.max(1, fromCommit - 1)) {
+    lines.push("- Mostly maintenance-oriented updates; useful for communicating stability and release hygiene.");
+  } else {
+    lines.push("- Distills raw commit/changelog data into a concise summary so release readers can triage changes faster.");
+  }
+
+  if (fromChangelog > 0) {
+    lines.push(`- Adds ${fromChangelog} changelog item(s) when commit subjects alone miss context.`);
+  }
+
+  return lines;
 }
 
 export function renderDraft({ repo, baseRef, targetRef = "HEAD", commitSubjects, changelogItems, preset = "standard", repoUrl, releaseUrl }) {
@@ -125,13 +179,13 @@ export function renderDraft({ repo, baseRef, targetRef = "HEAD", commitSubjects,
   }
 
   const maxBullets = mode === "short" ? 4 : 10;
-  const bullets = dedupeBullets(subjects, changelog, maxBullets);
+  const { bullets, fromCommit, fromChangelog } = dedupeBullets(subjects, changelog, maxBullets);
 
   const title = mode === "short" ? `# ${repo} update` : `# ${repo} release draft`;
   const whatShipped = bullets.length > 0 ? bullets.join("\n") : "- No commits or changelog bullets found for selected range.";
 
   const rangeLabel = baseRef ? `${baseRef}..${targetRef}` : `${targetRef}`;
-  const whyLine = `- Captures ${commitSubjects.length} commit(s) from \`${rangeLabel}\` with changelog context when available.`;
+  const whyLines = buildWhyLines({ subjects, fromCommit, fromChangelog, rangeLabel });
 
   const links = [
     `- Repo: ${repoUrl}`,
@@ -145,7 +199,7 @@ export function renderDraft({ repo, baseRef, targetRef = "HEAD", commitSubjects,
     whatShipped,
     "",
     "## Why it matters",
-    whyLine,
+    ...whyLines,
     "",
     "## Links",
     ...links,

@@ -56,3 +56,19 @@ test("renderDraft includes deterministic sections", () => {
   assert.match(out, /## Why it matters/);
   assert.match(out, /## Links/);
 });
+
+test("renderDraft why section is impact-focused, not placeholder wording", () => {
+  const out = renderDraft({
+    repo: "demo",
+    baseRef: "v0.1.0",
+    targetRef: "v0.1.1",
+    commitSubjects: ["feat: add parser", "fix: handle null"],
+    changelogItems: ["Added parser", "Fixed null crash"],
+    preset: "standard",
+    repoUrl: "https://github.com/x/demo",
+    releaseUrl: null,
+  });
+
+  assert.match(out, /Highlights .*feature addition.*bug fix/i);
+  assert.doesNotMatch(out, /with changelog context when available/i);
+});
