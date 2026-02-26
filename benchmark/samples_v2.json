@@ -1,0 +1,24 @@
+[
+  { "id": "cc-ship-note-015", "cohort": "commit-centric", "repo": "alex-builds-source/ship-note", "previousTag": "v0.1.4", "targetTag": "v0.1.5" },
+  { "id": "cc-ship-note-016", "cohort": "commit-centric", "repo": "alex-builds-source/ship-note", "previousTag": "v0.1.5", "targetTag": "v0.1.6" },
+  { "id": "cc-ship-note-017", "cohort": "commit-centric", "repo": "alex-builds-source/ship-note", "previousTag": "v0.1.6", "targetTag": "v0.1.7" },
+  { "id": "cc-ship-note-018", "cohort": "commit-centric", "repo": "alex-builds-source/ship-note", "previousTag": "v0.1.7", "targetTag": "v0.1.8" },
+  { "id": "cc-ship-note-019", "cohort": "commit-centric", "repo": "alex-builds-source/ship-note", "previousTag": "v0.1.8", "targetTag": "v0.1.9" },
+
+  { "id": "cc-rp-016", "cohort": "commit-centric", "repo": "alex-builds-source/repo-preflight", "previousTag": "v0.1.5", "targetTag": "v0.1.6" },
+  { "id": "cc-rp-017", "cohort": "commit-centric", "repo": "alex-builds-source/repo-preflight", "previousTag": "v0.1.6", "targetTag": "v0.1.7" },
+  { "id": "cc-rp-018", "cohort": "commit-centric", "repo": "alex-builds-source/repo-preflight", "previousTag": "v0.1.7", "targetTag": "v0.1.8" },
+  { "id": "cc-rp-019", "cohort": "commit-centric", "repo": "alex-builds-source/repo-preflight", "previousTag": "v0.1.8", "targetTag": "v0.1.9" },
+  { "id": "cc-rp-0110", "cohort": "commit-centric", "repo": "alex-builds-source/repo-preflight", "previousTag": "v0.1.9", "targetTag": "v0.1.10" },
+
+  { "id": "pr-bench-011", "cohort": "pr-centric", "repo": "alex-builds-source/notes-bench-pr", "previousTag": "v0.1.0", "targetTag": "v0.1.1" },
+  { "id": "pr-bench-012", "cohort": "pr-centric", "repo": "alex-builds-source/notes-bench-pr", "previousTag": "v0.1.1", "targetTag": "v0.1.2" },
+  { "id": "pr-bench-013", "cohort": "pr-centric", "repo": "alex-builds-source/notes-bench-pr", "previousTag": "v0.1.2", "targetTag": "v0.1.3" },
+  { "id": "pr-bench-014", "cohort": "pr-centric", "repo": "alex-builds-source/notes-bench-pr", "previousTag": "v0.1.3", "targetTag": "v0.1.4" },
+  { "id": "pr-bench-015", "cohort": "pr-centric", "repo": "alex-builds-source/notes-bench-pr", "previousTag": "v0.1.4", "targetTag": "v0.1.5" },
+  { "id": "pr-bench-016", "cohort": "pr-centric", "repo": "alex-builds-source/notes-bench-pr", "previousTag": "v0.1.5", "targetTag": "v0.1.6" },
+  { "id": "pr-bench-017", "cohort": "pr-centric", "repo": "alex-builds-source/notes-bench-pr", "previousTag": "v0.1.6", "targetTag": "v0.1.7" },
+  { "id": "pr-bench-018", "cohort": "pr-centric", "repo": "alex-builds-source/notes-bench-pr", "previousTag": "v0.1.7", "targetTag": "v0.1.8" },
+  { "id": "pr-bench-019", "cohort": "pr-centric", "repo": "alex-builds-source/notes-bench-pr", "previousTag": "v0.1.8", "targetTag": "v0.1.9" },
+  { "id": "pr-bench-0110", "cohort": "pr-centric", "repo": "alex-builds-source/notes-bench-pr", "previousTag": "v0.1.9", "targetTag": "v0.1.10" }
+]

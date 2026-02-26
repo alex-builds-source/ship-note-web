@@ -6,7 +6,8 @@
   "scripts": {
     "test": "node --test",
     "dev": "wrangler pages dev public --compatibility-date=2026-02-25",
-    "benchmark": "node benchmark/run-benchmark.mjs"
+    "benchmark": "node benchmark/run-benchmark.mjs",
+    "benchmark:v2": "node benchmark/run-benchmark-v2.mjs"
   },
   "devDependencies": {
     "wrangler": "^4.57.0"
