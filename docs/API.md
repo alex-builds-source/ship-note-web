@@ -13,6 +13,7 @@ Generate a release/devlog draft from GitHub repository history.
   "repo": "alex-builds-source/ship-note",
   "preset": "standard",
   "destination": "release",
+  "includeWhy": false,
   "baseRef": "v0.1.8",
   "targetRef": "v0.1.9",
   "releaseUrl": "https://github.com/alex-builds-source/ship-note/releases/tag/v0.1.9"
@@ -23,6 +24,7 @@ Generate a release/devlog draft from GitHub repository history.
 - `repo` (string, required): `owner/repo` or full GitHub repo URL
 - `preset` (string, optional): `standard` (default) or `short`
 - `destination` (string, optional): `release` (default), `update`, `social`, `internal`
+- `includeWhy` / `include_why` (boolean, optional): include `Why it matters` section (`false` default)
 - `baseRef` / `base_ref` (string, optional): compare base ref/tag; defaults to latest tag
 - `targetRef` / `target_ref` (string, optional): compare target ref/tag; defaults to `HEAD`
 - `releaseUrl` / `release_url` (string, optional): included in Links section
@@ -45,7 +47,8 @@ Generate a release/devlog draft from GitHub repository history.
   "options": {
     "preset": "standard",
     "group_by": "type",
-    "destination": "release"
+    "destination": "release",
+    "include_why": false
   },
   "stats": {
     "raw_commit_count": 3,
@@ -57,7 +60,7 @@ Generate a release/devlog draft from GitHub repository history.
   "sections": {
     "title": "# ship-note release draft",
     "what_shipped": ["- Added parser improvements"],
-    "why_it_matters": ["- Covers `v0.1.8..v0.1.9` with 2 commit-derived item(s)."],
+    "why_it_matters": [],
     "links": ["- Repo: https://github.com/alex-builds-source/ship-note"]
   },
   "items": [
@@ -72,6 +75,8 @@ Generate a release/devlog draft from GitHub repository history.
   "markdown": "# ship-note release draft\n..."
 }
 ```
+
+`sections.why_it_matters` is empty unless `includeWhy` is enabled.
 
 ### Legacy compatibility aliases
 For transition safety, responses also include legacy camelCase aliases:

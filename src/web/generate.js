@@ -187,7 +187,18 @@ function buildWhyLines({ subjects, fromCommit, fromChangelog, rangeLabel, destin
   return lines;
 }
 
-function buildDraftModel({ repo, baseRef, targetRef = "HEAD", commits, changelogItems, preset = "standard", destination = "release", repoUrl, releaseUrl }) {
+function buildDraftModel({
+  repo,
+  baseRef,
+  targetRef = "HEAD",
+  commits,
+  changelogItems,
+  preset = "standard",
+  destination = "release",
+  includeWhy = false,
+  repoUrl,
+  releaseUrl,
+}) {
   const mode = preset === "short" ? "short" : "standard";
   const channel = DESTINATIONS.has(destination) ? destination : "release";
 
@@ -260,23 +271,24 @@ function buildDraftModel({ repo, baseRef, targetRef = "HEAD", commits, changelog
   const sections = {
     title,
     what_shipped: whatShippedLines,
-    why_it_matters: whyItMatters,
+    why_it_matters: includeWhy ? whyItMatters : [],
     links,
   };
 
-  const markdown = [
+  const markdownParts = [
     title,
     "",
     "## What shipped",
     whatShippedLines.join("\n"),
     "",
-    "## Why it matters",
-    ...whyItMatters,
-    "",
-    "## Links",
-    ...links,
-    "",
-  ].join("\n");
+  ];
+
+  if (includeWhy) {
+    markdownParts.push("## Why it matters", ...whyItMatters, "");
+  }
+
+  markdownParts.push("## Links", ...links, "");
+  const markdown = markdownParts.join("\n");
 
   return {
     markdown,
@@ -303,7 +315,7 @@ function buildDraftModel({ repo, baseRef, targetRef = "HEAD", commits, changelog
   };
 }
 
-export function renderDraft({ repo, baseRef, targetRef = "HEAD", commitSubjects, changelogItems, preset = "standard", destination = "release", repoUrl, releaseUrl }) {
+export function renderDraft({ repo, baseRef, targetRef = "HEAD", commitSubjects, changelogItems, preset = "standard", destination = "release", includeWhy = false, repoUrl, releaseUrl }) {
   const commits = (commitSubjects || []).map((subject, idx) => ({ sha: `local-${idx}`, subject }));
   return buildDraftModel({
     repo,
@@ -313,6 +325,7 @@ export function renderDraft({ repo, baseRef, targetRef = "HEAD", commitSubjects,
     changelogItems,
     preset,
     destination,
+    includeWhy,
     repoUrl,
     releaseUrl,
   }).markdown;
@@ -368,7 +381,7 @@ async function fetchChangelogContent(owner, repo, token, ref) {
   }
 }
 
-export async function buildDraftFromGitHub({ repoInput, preset = "standard", destination = "release", baseRef, targetRef, releaseUrl, token }) {
+export async function buildDraftFromGitHub({ repoInput, preset = "standard", destination = "release", includeWhy = false, baseRef, targetRef, releaseUrl, token }) {
   const { owner, repo } = parseRepoInput(repoInput);
   const repoName = `${owner}/${repo}`;
   const repoUrl = `https://github.com/${repoName}`;
@@ -415,6 +428,7 @@ export async function buildDraftFromGitHub({ repoInput, preset = "standard", des
     changelogItems,
     preset: mode,
     destination: channel,
+    includeWhy: Boolean(includeWhy),
     repoUrl,
     releaseUrl,
   });
@@ -435,6 +449,7 @@ export async function buildDraftFromGitHub({ repoInput, preset = "standard", des
       preset: mode,
       group_by: "type",
       destination: channel,
+      include_why: Boolean(includeWhy),
     },
     stats: model.stats,
     sections: model.sections,
@@ -448,6 +463,7 @@ export async function buildDraftFromGitHub({ repoInput, preset = "standard", des
     rangeSpec,
     preset: mode,
     destination: channel,
+    includeWhy: Boolean(includeWhy),
     commitCount: commits.length,
   };
 

@@ -58,10 +58,12 @@ function rateLimitHint(error, hasToken) {
 
 function normalizeBody(raw) {
   const body = raw && typeof raw === "object" ? raw : {};
+  const includeWhyRaw = body.includeWhy ?? body.include_why;
   return {
     repo: String(body.repo || body.repository || "").trim(),
     preset: String(body.preset || "standard").trim(),
     destination: String(body.destination || "release").trim(),
+    includeWhy: includeWhyRaw === true || includeWhyRaw === "true" || includeWhyRaw === 1 || includeWhyRaw === "1",
     baseRef: String(body.baseRef || body.base_ref || "").trim(),
     targetRef: String(body.targetRef || body.target_ref || "").trim(),
     releaseUrl: String(body.releaseUrl || body.release_url || "").trim(),
@@ -110,6 +112,7 @@ export async function onRequestPost({ request, env }) {
       repoInput: body.repo,
       preset: body.preset,
       destination: body.destination,
+      includeWhy: body.includeWhy,
       baseRef: body.baseRef,
       targetRef: body.targetRef,
       releaseUrl: body.releaseUrl,

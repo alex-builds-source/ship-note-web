@@ -305,12 +305,19 @@
                 </select>
               </label>
               <label>
-                Base ref/tag
-                <input id="baseRef" name="baseRef" placeholder="v0.1.8" />
+                Why section
+                <select id="includeWhy" name="includeWhy">
+                  <option value="false" selected>off (recommended)</option>
+                  <option value="true">on</option>
+                </select>
               </label>
             </div>
 
-            <div class="row2">
+            <div class="row3">
+              <label>
+                Base ref/tag
+                <input id="baseRef" name="baseRef" placeholder="v0.1.8" />
+              </label>
               <label>
                 Target ref/tag
                 <input id="targetRef" name="targetRef" placeholder="v0.1.9" />
@@ -370,6 +377,7 @@
         repo: document.getElementById('repo'),
         preset: document.getElementById('preset'),
         destination: document.getElementById('destination'),
+        includeWhy: document.getElementById('includeWhy'),
         baseRef: document.getElementById('baseRef'),
         targetRef: document.getElementById('targetRef'),
         releaseUrl: document.getElementById('releaseUrl'),
@@ -440,6 +448,7 @@
         fields.repo.value = p.get('repo') || '';
         fields.preset.value = p.get('preset') || 'standard';
         fields.destination.value = p.get('destination') || 'release';
+        fields.includeWhy.value = p.get('includeWhy') || 'false';
         fields.baseRef.value = p.get('baseRef') || '';
         fields.targetRef.value = p.get('targetRef') || '';
         fields.releaseUrl.value = p.get('releaseUrl') || '';
@@ -449,7 +458,9 @@
         const p = new URLSearchParams();
         for (const [k, el] of Object.entries(fields)) {
           const v = el.value.trim();
-          if (v) p.set(k, v);
+          if (!v) continue;
+          if (k === 'includeWhy' && v === 'false') continue;
+          p.set(k, v);
         }
         const next = `${window.location.pathname}${p.toString() ? `?${p}` : ''}`;
         history.replaceState(null, '', next);
@@ -461,6 +472,7 @@
             repo: 'alex-builds-source/ship-note',
             preset: 'standard',
             destination: 'release',
+            includeWhy: 'false',
             baseRef: 'v0.1.8',
             targetRef: 'v0.1.9',
             releaseUrl: 'https://github.com/alex-builds-source/ship-note/releases/tag/v0.1.9',
@@ -469,6 +481,7 @@
             repo: 'alex-builds-source/repo-preflight',
             preset: 'standard',
             destination: 'internal',
+            includeWhy: 'false',
             baseRef: 'v0.1.10',
             targetRef: 'v0.1.11',
             releaseUrl: 'https://github.com/alex-builds-source/repo-preflight/releases/tag/v0.1.11',
@@ -477,6 +490,7 @@
             repo: 'alex-builds-source/notes-bench-pr',
             preset: 'standard',
             destination: 'release',
+            includeWhy: 'false',
             baseRef: 'v0.1.9',
             targetRef: 'v0.1.10',
             releaseUrl: 'https://github.com/alex-builds-source/notes-bench-pr/releases/tag/v0.1.10',
@@ -499,6 +513,7 @@
           repo: fields.repo.value.trim(),
           preset: fields.preset.value,
           destination: fields.destination.value,
+          includeWhy: fields.includeWhy.value === 'true',
           baseRef: fields.baseRef.value.trim(),
           targetRef: fields.targetRef.value.trim(),
           releaseUrl: fields.releaseUrl.value.trim(),

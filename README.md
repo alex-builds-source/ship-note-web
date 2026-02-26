@@ -28,6 +28,7 @@ Then open the local Pages dev URL printed by Wrangler.
   - `repo` (required)
   - `preset` (`standard` | `short`)
   - `destination` (`release` | `update` | `social` | `internal`)
+  - `includeWhy` (optional boolean, default `false`)
   - `baseRef`/`targetRef` (optional range overrides)
   - `releaseUrl` (optional)
 - Response JSON (canonical):

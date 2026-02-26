@@ -47,6 +47,7 @@ test("renderDraft includes deterministic sections", () => {
     commitSubjects: ["feat: add parser"],
     changelogItems: ["Added parser"],
     preset: "standard",
+    includeWhy: true,
     repoUrl: "https://github.com/x/demo",
     releaseUrl: "https://github.com/x/demo/releases/tag/v0.1.1",
   });
@@ -73,6 +74,22 @@ test("renderDraft supports destination-specific title", () => {
   assert.match(out, /^# demo social update/m);
 });
 
+test("renderDraft omits why section by default", () => {
+  const out = renderDraft({
+    repo: "demo",
+    baseRef: "v0.1.0",
+    targetRef: "v0.1.1",
+    commitSubjects: ["feat: add parser"],
+    changelogItems: [],
+    preset: "standard",
+    destination: "release",
+    repoUrl: "https://github.com/x/demo",
+    releaseUrl: null,
+  });
+
+  assert.doesNotMatch(out, /## Why it matters/);
+});
+
 test("renderDraft why section is impact-focused, not placeholder wording", () => {
   const out = renderDraft({
     repo: "demo",
@@ -81,6 +98,7 @@ test("renderDraft why section is impact-focused, not placeholder wording", () =>
     commitSubjects: ["feat: add parser", "fix: handle null"],
     changelogItems: ["Added parser", "Fixed null crash"],
     preset: "standard",
+    includeWhy: true,
     repoUrl: "https://github.com/x/demo",
     releaseUrl: null,
   });

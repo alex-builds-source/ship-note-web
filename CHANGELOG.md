@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.2] - 2026-02-26
+### Added
+- `includeWhy` / `include_why` request option for explicitly including `Why it matters` section.
+
+### Changed
+- `Why it matters` is off by default in web output to avoid template filler in release notes.
+- UI now exposes explicit `Why section` control (off/on).
+- Destination controls are more visible and practical in UI.
+
 ## [0.1.1] - 2026-02-26
 ### Added
 - `targetRef` support for exact release-range draft generation (`baseRef..targetRef`).
