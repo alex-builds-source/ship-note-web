@@ -14,6 +14,7 @@ export async function onRequestPost({ request, env }) {
       repoInput: body.repo,
       preset: body.preset,
       baseRef: body.baseRef,
+      targetRef: body.targetRef,
       releaseUrl: body.releaseUrl,
       token: env.GITHUB_TOKEN,
     });

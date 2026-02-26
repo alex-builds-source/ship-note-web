@@ -1,0 +1,24 @@
+[
+  { "id": "ship-note-011", "repo": "alex-builds-source/ship-note", "previousTag": "v0.1.0", "targetTag": "v0.1.1" },
+  { "id": "ship-note-012", "repo": "alex-builds-source/ship-note", "previousTag": "v0.1.1", "targetTag": "v0.1.2" },
+  { "id": "ship-note-013", "repo": "alex-builds-source/ship-note", "previousTag": "v0.1.2", "targetTag": "v0.1.3" },
+  { "id": "ship-note-014", "repo": "alex-builds-source/ship-note", "previousTag": "v0.1.3", "targetTag": "v0.1.4" },
+  { "id": "ship-note-015", "repo": "alex-builds-source/ship-note", "previousTag": "v0.1.4", "targetTag": "v0.1.5" },
+  { "id": "ship-note-016", "repo": "alex-builds-source/ship-note", "previousTag": "v0.1.5", "targetTag": "v0.1.6" },
+  { "id": "ship-note-017", "repo": "alex-builds-source/ship-note", "previousTag": "v0.1.6", "targetTag": "v0.1.7" },
+  { "id": "ship-note-018", "repo": "alex-builds-source/ship-note", "previousTag": "v0.1.7", "targetTag": "v0.1.8" },
+  { "id": "ship-note-019", "repo": "alex-builds-source/ship-note", "previousTag": "v0.1.8", "targetTag": "v0.1.9" },
+
+  { "id": "repo-preflight-011", "repo": "alex-builds-source/repo-preflight", "previousTag": "v0.1.0", "targetTag": "v0.1.1" },
+  { "id": "repo-preflight-012", "repo": "alex-builds-source/repo-preflight", "previousTag": "v0.1.1", "targetTag": "v0.1.2" },
+  { "id": "repo-preflight-013", "repo": "alex-builds-source/repo-preflight", "previousTag": "v0.1.2", "targetTag": "v0.1.3" },
+  { "id": "repo-preflight-014", "repo": "alex-builds-source/repo-preflight", "previousTag": "v0.1.3", "targetTag": "v0.1.4" },
+  { "id": "repo-preflight-015", "repo": "alex-builds-source/repo-preflight", "previousTag": "v0.1.4", "targetTag": "v0.1.5" },
+  { "id": "repo-preflight-016", "repo": "alex-builds-source/repo-preflight", "previousTag": "v0.1.5", "targetTag": "v0.1.6" },
+  { "id": "repo-preflight-017", "repo": "alex-builds-source/repo-preflight", "previousTag": "v0.1.6", "targetTag": "v0.1.7" },
+  { "id": "repo-preflight-018", "repo": "alex-builds-source/repo-preflight", "previousTag": "v0.1.7", "targetTag": "v0.1.8" },
+
+  { "id": "agent-first-012", "repo": "alex-builds-source/agent-first-starter", "previousTag": "v0.1.1", "targetTag": "v0.1.2" },
+  { "id": "agent-first-013", "repo": "alex-builds-source/agent-first-starter", "previousTag": "v0.1.2", "targetTag": "v0.1.3" },
+  { "id": "agent-first-014", "repo": "alex-builds-source/agent-first-starter", "previousTag": "v0.1.3", "targetTag": "v0.1.4" }
+]

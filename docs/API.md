@@ -13,6 +13,7 @@ Generate a markdown release/devlog draft from public GitHub repository history.
   "repo": "alex-builds-source/ship-note",
   "preset": "standard",
   "baseRef": "v0.1.8",
+  "targetRef": "v0.1.9",
   "releaseUrl": "https://github.com/alex-builds-source/ship-note/releases/tag/v0.1.9"
 }
 ```
@@ -21,6 +22,7 @@ Generate a markdown release/devlog draft from public GitHub repository history.
 - `repo` (string, required): `owner/repo` or full GitHub repo URL
 - `preset` (string, optional): `standard` (default) or `short`
 - `baseRef` (string, optional): tag/ref used as compare base; defaults to latest tag
+- `targetRef` (string, optional): compare target ref/tag; defaults to `HEAD`
 - `releaseUrl` (string, optional): included in Links section
 
 ## Response (success)

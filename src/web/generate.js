@@ -168,9 +168,9 @@ async function ghFetch(path, token) {
   return resp.json();
 }
 
-async function fetchChangelogContent(owner, repo, token) {
+async function fetchChangelogContent(owner, repo, token, ref) {
   try {
-    const data = await ghFetch(`/repos/${owner}/${repo}/contents/CHANGELOG.md?ref=HEAD`, token);
+    const data = await ghFetch(`/repos/${owner}/${repo}/contents/CHANGELOG.md?ref=${encodeURIComponent(ref)}`, token);
     if (!data?.content) return "";
     const binary = atob(String(data.content).replace(/\n/g, ""));
     const bytes = Uint8Array.from(binary, (ch) => ch.charCodeAt(0));
@@ -180,7 +180,7 @@ async function fetchChangelogContent(owner, repo, token) {
   }
 }
 
-export async function buildDraftFromGitHub({ repoInput, preset = "standard", baseRef, releaseUrl, token }) {
+export async function buildDraftFromGitHub({ repoInput, preset = "standard", baseRef, targetRef, releaseUrl, token }) {
   const { owner, repo } = parseRepoInput(repoInput);
   const repoUrl = `https://github.com/${owner}/${repo}`;
 
@@ -190,26 +190,28 @@ export async function buildDraftFromGitHub({ repoInput, preset = "standard", bas
     resolvedBase = tags?.[0]?.name || "";
   }
 
+  const resolvedTarget = (targetRef || "HEAD").trim() || "HEAD";
   let commitSubjects = [];
-  let targetRef = "HEAD";
 
   if (resolvedBase) {
-    const compare = await ghFetch(`/repos/${owner}/${repo}/compare/${encodeURIComponent(resolvedBase)}...HEAD`, token);
+    const compare = await ghFetch(
+      `/repos/${owner}/${repo}/compare/${encodeURIComponent(resolvedBase)}...${encodeURIComponent(resolvedTarget)}`,
+      token,
+    );
     commitSubjects = (compare.commits || []).map((c) => c?.commit?.message?.split("\n")[0]).filter(Boolean);
-    targetRef = compare?.status === "identical" ? resolvedBase : "HEAD";
   } else {
-    const commits = await ghFetch(`/repos/${owner}/${repo}/commits?per_page=20`, token);
+    const commits = await ghFetch(`/repos/${owner}/${repo}/commits?sha=${encodeURIComponent(resolvedTarget)}&per_page=20`, token);
     commitSubjects = (commits || []).map((c) => c?.commit?.message?.split("\n")[0]).filter(Boolean);
   }
 
-  const changelogText = await fetchChangelogContent(owner, repo, token);
+  const changelogText = await fetchChangelogContent(owner, repo, token, resolvedTarget);
   let changelogItems = extractChangelogBullets(changelogText, preset === "short" ? 4 : 6);
   if (commitSubjects.length === 0) changelogItems = [];
 
   const markdown = renderDraft({
     repo,
     baseRef: resolvedBase,
-    targetRef,
+    targetRef: resolvedTarget,
     commitSubjects,
     changelogItems,
     preset,
@@ -220,7 +222,7 @@ export async function buildDraftFromGitHub({ repoInput, preset = "standard", bas
   return {
     repo: `${owner}/${repo}`,
     baseRef: resolvedBase || null,
-    targetRef,
+    targetRef: resolvedTarget,
     preset,
     commitCount: commitSubjects.length,
     markdown,

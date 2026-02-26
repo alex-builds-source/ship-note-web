@@ -44,13 +44,18 @@
           <input id="baseRef" name="baseRef" placeholder="v0.1.8" />
         </label>
         <label>
+          Target ref/tag (optional, default HEAD)
+          <input id="targetRef" name="targetRef" placeholder="v0.1.9" />
+        </label>
+        <label>
           Release URL (optional)
           <input id="releaseUrl" name="releaseUrl" placeholder="https://github.com/.../releases/tag/vX.Y.Z" />
         </label>
-        <div class="actions" style="align-self:end;">
-          <button type="submit" id="generate">Generate draft</button>
-          <button type="button" id="copy">Copy</button>
-        </div>
+      </div>
+
+      <div class="actions">
+        <button type="submit" id="generate">Generate draft</button>
+        <button type="button" id="copy">Copy</button>
       </div>
     </form>
 
@@ -73,6 +78,7 @@
           repo: document.getElementById('repo').value.trim(),
           preset: document.getElementById('preset').value,
           baseRef: document.getElementById('baseRef').value.trim(),
+          targetRef: document.getElementById('targetRef').value.trim(),
           releaseUrl: document.getElementById('releaseUrl').value.trim(),
         };
 
@@ -86,7 +92,7 @@
           if (!resp.ok || !data.ok) throw new Error(data.error || 'generation failed');
 
           output.value = data.markdown;
-          setStatus(`Done: ${data.repo} • commits=${data.commitCount} • base=${data.baseRef || 'none'}`);
+          setStatus(`Done: ${data.repo} • commits=${data.commitCount} • range=${data.baseRef || 'none'}..${data.targetRef || 'HEAD'}`);
         } catch (err) {
           setStatus(`Error: ${err.message || err}`);
         }

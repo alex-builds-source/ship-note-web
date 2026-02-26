@@ -4,7 +4,7 @@ Generate concise release/devlog drafts from public GitHub repos in a browser.
 
 ## What it does (MVP)
 - Input a repo URL (`owner/repo` or full GitHub URL)
-- Resolve range (`latest tag..HEAD`, or optional base ref override)
+- Resolve range (`latest tag..HEAD`, with optional base and target ref overrides)
 - Produce deterministic markdown in `standard` or `short` mode
 - Copy draft and edit before publishing
 
@@ -37,6 +37,16 @@ See `docs/API.md` for details.
 ```bash
 npm test
 ```
+
+## Benchmark harness
+
+```bash
+npm run benchmark
+```
+
+Outputs:
+- `benchmark/results.json`
+- `benchmark/SUMMARY.md`
 
 ## Security
 - Public-repo mode by default (no user tokens required).
