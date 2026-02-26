@@ -51,6 +51,17 @@ Outputs:
 - `benchmark/results.json` + `benchmark/SUMMARY.md` (V1)
 - `benchmark/results_v2.json` + `benchmark/SUMMARY_V2.md` (mixed-cohort fairness run)
 
+## Authenticated mode (optional)
+For heavier usage, configure a server-side `GITHUB_TOKEN` so GitHub API budget is higher than anonymous mode.
+
+```bash
+wrangler pages secret put GITHUB_TOKEN --project-name ship-note-web
+```
+
+Notes:
+- Token stays server-side in Cloudflare Pages Functions.
+- The UI now surfaces a clearer hint when a GitHub rate limit is hit.
+
 ## Security
 - Public-repo mode by default (no user tokens required).
 - Optional `GITHUB_TOKEN` Worker secret can be added server-side for higher rate limits.

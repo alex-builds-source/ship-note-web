@@ -8,8 +8,8 @@
       "tie": 0
     },
     "avgScores": {
-      "shipNoteWeb": 54.211690998814596,
-      "githubAuto": 61.328656117920545
+      "shipNoteWeb": 53.8994812088787,
+      "githubAuto": 61.33535611792054
     }
   },
   "byCohort": {
@@ -22,8 +22,8 @@
         "shipNoteWinRate": 0.9
       },
       "avgScores": {
-        "shipNoteWeb": 47.027424229664504,
-        "githubAuto": 38.54054080726966
+        "shipNoteWeb": 45.16805698123677,
+        "githubAuto": 38.555840807269654
       }
     },
     "pr-centric": {
@@ -35,8 +35,8 @@
         "shipNoteWinRate": 0
       },
       "avgScores": {
-        "shipNoteWeb": 61.39595776796466,
-        "githubAuto": 84.11677142857143
+        "shipNoteWeb": 62.63090543652063,
+        "githubAuto": 84.11487142857142
       }
     }
   },
@@ -50,21 +50,21 @@
       "referenceLength": 2704,
       "githubAuto": {
         "ok": true,
-        "latencyMs": 334,
+        "latencyMs": 313,
         "length": 91,
         "similarity": 0.1317365269461078,
         "coverage": 0,
         "noise": 0,
-        "score": 34.93546107784431
+        "score": 34.95646107784431
       },
       "shipNoteWeb": {
         "ok": true,
-        "latencyMs": 374,
-        "length": 616,
-        "similarity": 0.43478260869565216,
+        "latencyMs": 624,
+        "length": 744,
+        "similarity": 0.4072398190045249,
         "coverage": 0.08333333333333333,
-        "noise": 0.125,
-        "score": 47.017304347826084
+        "noise": 0.1,
+        "score": 46.16559276018099
       },
       "winner": "ship-note-web"
     },
@@ -77,21 +77,21 @@
       "referenceLength": 3033,
       "githubAuto": {
         "ok": true,
-        "latencyMs": 301,
+        "latencyMs": 302,
         "length": 91,
         "similarity": 0.12290502793296089,
         "coverage": 0,
         "noise": 0,
-        "score": 34.615201117318435
+        "score": 34.61420111731844
       },
       "shipNoteWeb": {
         "ok": true,
-        "latencyMs": 366,
-        "length": 451,
-        "similarity": 0.3619047619047619,
+        "latencyMs": 415,
+        "length": 579,
+        "similarity": 0.3392857142857143,
         "coverage": 0.05,
-        "noise": 0.16666666666666666,
-        "score": 42.276857142857146
+        "noise": 0.125,
+        "score": 42.15642857142857
       },
       "winner": "ship-note-web"
     },
@@ -104,21 +104,21 @@
       "referenceLength": 3269,
       "githubAuto": {
         "ok": true,
-        "latencyMs": 302,
+        "latencyMs": 289,
         "length": 91,
         "similarity": 0.11764705882352941,
         "coverage": 0,
         "noise": 0,
-        "score": 34.40388235294118
+        "score": 34.41688235294118
       },
       "shipNoteWeb": {
         "ok": true,
-        "latencyMs": 365,
-        "length": 549,
-        "similarity": 0.39285714285714285,
+        "latencyMs": 360,
+        "length": 667,
+        "similarity": 0.3697478991596639,
         "coverage": 0.047619047619047616,
-        "noise": 0.5,
-        "score": 36.777857142857144
+        "noise": 0.375,
+        "score": 38.35848739495798
       },
       "winner": "ship-note-web"
     },
@@ -131,21 +131,21 @@
       "referenceLength": 3622,
       "githubAuto": {
         "ok": true,
-        "latencyMs": 327,
+        "latencyMs": 283,
         "length": 91,
         "similarity": 0.11518324607329843,
         "coverage": 0,
         "noise": 0,
-        "score": 34.280329842931934
+        "score": 34.32432984293194
       },
       "shipNoteWeb": {
         "ok": true,
-        "latencyMs": 356,
-        "length": 520,
-        "similarity": 0.3436123348017621,
+        "latencyMs": 322,
+        "length": 647,
+        "similarity": 0.3236514522821577,
         "coverage": 0.06521739130434782,
-        "noise": 0.2857142857142857,
-        "score": 39.6307294169152
+        "noise": 0.2222222222222222,
+        "score": 40.136135385972295
       },
       "winner": "ship-note-web"
     },
@@ -158,21 +158,21 @@
       "referenceLength": 91,
       "githubAuto": {
         "ok": true,
-        "latencyMs": 301,
+        "latencyMs": 317,
         "length": 91,
         "similarity": 1,
         "coverage": 0.5,
         "noise": 0,
-        "score": 84.699
+        "score": 84.68299999999999
       },
       "shipNoteWeb": {
         "ok": true,
-        "latencyMs": 393,
-        "length": 623,
-        "similarity": 0.26865671641791045,
+        "latencyMs": 338,
+        "length": 770,
+        "similarity": 0.21951219512195122,
         "coverage": 0.5,
-        "noise": 0.14285714285714285,
-        "score": 52.49612579957356
+        "noise": 0.2222222222222222,
+        "score": 48.998043360433606
       },
       "winner": "github-auto"
     },
@@ -185,21 +185,21 @@
       "referenceLength": 374,
       "githubAuto": {
         "ok": true,
-        "latencyMs": 324,
+        "latencyMs": 301,
         "length": 96,
         "similarity": 0.10810810810810811,
         "coverage": 0,
         "noise": 0,
-        "score": 34.000324324324325
+        "score": 34.02332432432432
       },
       "shipNoteWeb": {
         "ok": true,
-        "latencyMs": 383,
-        "length": 710,
-        "similarity": 0.575,
+        "latencyMs": 433,
+        "length": 857,
+        "similarity": 0.4842105263157895,
         "coverage": 0,
-        "noise": 0.1111111111111111,
-        "score": 50.394777777777776
+        "noise": 0.18181818181818182,
+        "score": 45.29905741626794
       },
       "winner": "ship-note-web"
     },
@@ -212,21 +212,21 @@
       "referenceLength": 421,
       "githubAuto": {
         "ok": true,
-        "latencyMs": 285,
+        "latencyMs": 292,
         "length": 96,
         "similarity": 0.09302325581395349,
         "coverage": 0,
         "noise": 0,
-        "score": 33.435930232558135
+        "score": 33.42893023255814
       },
       "shipNoteWeb": {
         "ok": true,
-        "latencyMs": 361,
-        "length": 669,
-        "similarity": 0.5476190476190477,
+        "latencyMs": 369,
+        "length": 816,
+        "similarity": 0.46464646464646464,
         "coverage": 0.125,
-        "noise": 0.1111111111111111,
-        "score": 53.07153968253968
+        "noise": 0.18181818181818182,
+        "score": 48.33049494949495
       },
       "winner": "ship-note-web"
     },
@@ -239,21 +239,21 @@
       "referenceLength": 383,
       "githubAuto": {
         "ok": true,
-        "latencyMs": 254,
+        "latencyMs": 296,
         "length": 96,
         "similarity": 0.10526315789473684,
         "coverage": 0,
         "noise": 0,
-        "score": 33.956526315789475
+        "score": 33.91452631578947
       },
       "shipNoteWeb": {
         "ok": true,
-        "latencyMs": 341,
-        "length": 711,
-        "similarity": 0.5783132530120482,
+        "latencyMs": 387,
+        "length": 858,
+        "similarity": 0.4897959183673469,
         "coverage": 0.5,
-        "noise": 0.1111111111111111,
-        "score": 65.56930789825971
+        "noise": 0.18181818181818182,
+        "score": 60.568473098330244
       },
       "winner": "ship-note-web"
     },
@@ -266,21 +266,21 @@
       "referenceLength": 4428,
       "githubAuto": {
         "ok": true,
-        "latencyMs": 350,
+        "latencyMs": 335,
         "length": 96,
         "similarity": 0.0449438202247191,
         "coverage": 0,
         "noise": 0,
-        "score": 31.447752808988767
+        "score": 31.462752808988768
       },
       "shipNoteWeb": {
         "ok": true,
-        "latencyMs": 489,
-        "length": 713,
-        "similarity": 0.33480176211453744,
+        "latencyMs": 328,
+        "length": 840,
+        "similarity": 0.3153526970954357,
         "coverage": 0.057971014492753624,
-        "noise": 0.125,
-        "score": 42.14220091936411
+        "noise": 0.1,
+        "score": 42.02523831860003
       },
       "winner": "ship-note-web"
     },
@@ -293,21 +293,21 @@
       "referenceLength": 277,
       "githubAuto": {
         "ok": true,
-        "latencyMs": 369,
+        "latencyMs": 266,
         "length": 97,
         "similarity": 0,
         "coverage": 0,
         "noise": 0,
-        "score": 29.631
+        "score": 29.734
       },
       "shipNoteWeb": {
         "ok": true,
-        "latencyMs": 488,
-        "length": 639,
-        "similarity": 0.40963855421686746,
+        "latencyMs": 378,
+        "length": 766,
+        "similarity": 0.35051546391752575,
         "coverage": 0,
-        "noise": 0.25,
-        "score": 40.8975421686747
+        "noise": 0.2,
+        "score": 39.64261855670103
       },
       "winner": "ship-note-web"
     },
@@ -320,21 +320,21 @@
       "referenceLength": 369,
       "githubAuto": {
         "ok": true,
-        "latencyMs": 336,
+        "latencyMs": 324,
         "length": 234,
         "similarity": 0.8571428571428571,
         "coverage": 0.5,
         "noise": 0,
-        "score": 78.94971428571428
+        "score": 78.96171428571428
       },
       "shipNoteWeb": {
         "ok": true,
-        "latencyMs": 568,
-        "length": 337,
-        "similarity": 0.49056603773584906,
+        "latencyMs": 273,
+        "length": 396,
+        "similarity": 0.4067796610169492,
         "coverage": 0.5,
-        "noise": 0.25,
-        "score": 59.054641509433964
+        "noise": 0,
+        "score": 60.99818644067797
       },
       "winner": "github-auto"
     },
@@ -347,21 +347,21 @@
       "referenceLength": 234,
       "githubAuto": {
         "ok": true,
-        "latencyMs": 297,
+        "latencyMs": 312,
         "length": 234,
         "similarity": 1,
         "coverage": 0.5,
         "noise": 0,
-        "score": 84.703
+        "score": 84.688
       },
       "shipNoteWeb": {
         "ok": true,
-        "latencyMs": 399,
-        "length": 337,
-        "similarity": 0.5531914893617021,
+        "latencyMs": 254,
+        "length": 396,
+        "similarity": 0.4528301886792453,
         "coverage": 0.5,
-        "noise": 0.25,
-        "score": 61.72865957446808
+        "noise": 0,
+        "score": 62.85920754716981
       },
       "winner": "github-auto"
     },
@@ -374,21 +374,21 @@
       "referenceLength": 234,
       "githubAuto": {
         "ok": true,
-        "latencyMs": 282,
+        "latencyMs": 331,
         "length": 234,
         "similarity": 1,
         "coverage": 0.5,
         "noise": 0,
-        "score": 84.718
+        "score": 84.669
       },
       "shipNoteWeb": {
         "ok": true,
-        "latencyMs": 471,
-        "length": 337,
-        "similarity": 0.5531914893617021,
+        "latencyMs": 274,
+        "length": 396,
+        "similarity": 0.4528301886792453,
         "coverage": 0.5,
-        "noise": 0.25,
-        "score": 61.65665957446808
+        "noise": 0,
+        "score": 62.839207547169806
       },
       "winner": "github-auto"
     },
@@ -401,21 +401,21 @@
       "referenceLength": 234,
       "githubAuto": {
         "ok": true,
-        "latencyMs": 304,
+        "latencyMs": 280,
         "length": 234,
         "similarity": 1,
         "coverage": 0.5,
         "noise": 0,
-        "score": 84.696
+        "score": 84.72
       },
       "shipNoteWeb": {
         "ok": true,
-        "latencyMs": 525,
-        "length": 337,
-        "similarity": 0.5531914893617021,
+        "latencyMs": 326,
+        "length": 396,
+        "similarity": 0.4528301886792453,
         "coverage": 0.5,
-        "noise": 0.25,
-        "score": 61.602659574468085
+        "noise": 0,
+        "score": 62.78720754716981
       },
       "winner": "github-auto"
     },
@@ -428,21 +428,21 @@
       "referenceLength": 234,
       "githubAuto": {
         "ok": true,
-        "latencyMs": 368,
+        "latencyMs": 306,
         "length": 234,
         "similarity": 1,
         "coverage": 0.5,
         "noise": 0,
-        "score": 84.632
+        "score": 84.694
       },
       "shipNoteWeb": {
         "ok": true,
-        "latencyMs": 490,
-        "length": 337,
-        "similarity": 0.5531914893617021,
+        "latencyMs": 340,
+        "length": 396,
+        "similarity": 0.4528301886792453,
         "coverage": 0.5,
-        "noise": 0.25,
-        "score": 61.63765957446809
+        "noise": 0,
+        "score": 62.773207547169804
       },
       "winner": "github-auto"
     },
@@ -455,21 +455,21 @@
       "referenceLength": 234,
       "githubAuto": {
         "ok": true,
-        "latencyMs": 293,
+        "latencyMs": 309,
         "length": 234,
         "similarity": 1,
         "coverage": 0.5,
         "noise": 0,
-        "score": 84.707
+        "score": 84.691
       },
       "shipNoteWeb": {
         "ok": true,
-        "latencyMs": 443,
-        "length": 337,
-        "similarity": 0.5531914893617021,
+        "latencyMs": 314,
+        "length": 396,
+        "similarity": 0.4528301886792453,
         "coverage": 0.5,
-        "noise": 0.25,
-        "score": 61.684659574468085
+        "noise": 0,
+        "score": 62.79920754716981
       },
       "winner": "github-auto"
     },
@@ -482,21 +482,21 @@
       "referenceLength": 234,
       "githubAuto": {
         "ok": true,
-        "latencyMs": 302,
+        "latencyMs": 359,
         "length": 234,
         "similarity": 1,
         "coverage": 0.5,
         "noise": 0,
-        "score": 84.69800000000001
+        "score": 84.641
       },
       "shipNoteWeb": {
         "ok": true,
-        "latencyMs": 501,
-        "length": 337,
-        "similarity": 0.5531914893617021,
+        "latencyMs": 305,
+        "length": 396,
+        "similarity": 0.4528301886792453,
         "coverage": 0.5,
-        "noise": 0.25,
-        "score": 61.62665957446808
+        "noise": 0,
+        "score": 62.80820754716981
       },
       "winner": "github-auto"
     },
@@ -509,21 +509,21 @@
       "referenceLength": 234,
       "githubAuto": {
         "ok": true,
-        "latencyMs": 331,
+        "latencyMs": 301,
         "length": 234,
         "similarity": 1,
         "coverage": 0.5,
         "noise": 0,
-        "score": 84.669
+        "score": 84.699
       },
       "shipNoteWeb": {
         "ok": true,
-        "latencyMs": 455,
-        "length": 337,
-        "similarity": 0.5531914893617021,
+        "latencyMs": 321,
+        "length": 396,
+        "similarity": 0.4528301886792453,
         "coverage": 0.5,
-        "noise": 0.25,
-        "score": 61.672659574468085
+        "noise": 0,
+        "score": 62.79220754716981
       },
       "winner": "github-auto"
     },
@@ -536,21 +536,21 @@
       "referenceLength": 234,
       "githubAuto": {
         "ok": true,
-        "latencyMs": 301,
+        "latencyMs": 326,
         "length": 234,
         "similarity": 1,
         "coverage": 0.5,
         "noise": 0,
-        "score": 84.699
+        "score": 84.674
       },
       "shipNoteWeb": {
         "ok": true,
-        "latencyMs": 516,
-        "length": 337,
-        "similarity": 0.5531914893617021,
+        "latencyMs": 285,
+        "length": 396,
+        "similarity": 0.4528301886792453,
         "coverage": 0.5,
-        "noise": 0.25,
-        "score": 61.611659574468085
+        "noise": 0,
+        "score": 62.82820754716981
       },
       "winner": "github-auto"
     },
@@ -563,21 +563,21 @@
       "referenceLength": 237,
       "githubAuto": {
         "ok": true,
-        "latencyMs": 304,
+        "latencyMs": 289,
         "length": 237,
         "similarity": 1,
         "coverage": 0.5,
         "noise": 0,
-        "score": 84.696
+        "score": 84.711
       },
       "shipNoteWeb": {
         "ok": true,
-        "latencyMs": 444,
-        "length": 341,
-        "similarity": 0.5531914893617021,
+        "latencyMs": 289,
+        "length": 400,
+        "similarity": 0.4528301886792453,
         "coverage": 0.5,
-        "noise": 0.25,
-        "score": 61.68365957446808
+        "noise": 0,
+        "score": 62.824207547169806
       },
       "winner": "github-auto"
     }

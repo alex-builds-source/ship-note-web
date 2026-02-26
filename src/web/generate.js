@@ -1,4 +1,22 @@
 const GH_API = "https://api.github.com";
+const GH_CACHE_TTL_MS = 30_000;
+const GH_CACHE_MAX_ENTRIES = 200;
+const ghResponseCache = globalThis.__shipNoteWebGhCache || (globalThis.__shipNoteWebGhCache = new Map());
+
+function ghCacheKey(path, token) {
+  return `${token ? "auth" : "anon"}:${path}`;
+}
+
+function trimGhCache() {
+  if (ghResponseCache.size <= GH_CACHE_MAX_ENTRIES) return;
+  const toDelete = ghResponseCache.size - GH_CACHE_MAX_ENTRIES;
+  const keys = ghResponseCache.keys();
+  for (let i = 0; i < toDelete; i += 1) {
+    const key = keys.next().value;
+    if (!key) break;
+    ghResponseCache.delete(key);
+  }
+}
 
 export function parseRepoInput(input) {
   const raw = (input || "").trim();
@@ -208,18 +226,46 @@ export function renderDraft({ repo, baseRef, targetRef = "HEAD", commitSubjects,
 }
 
 async function ghFetch(path, token) {
+  const key = ghCacheKey(path, token);
+  const now = Date.now();
+  const cached = ghResponseCache.get(key);
+  if (cached && cached.expiresAt > now) {
+    return cached.promise;
+  }
+  if (cached) ghResponseCache.delete(key);
+
   const headers = {
     "User-Agent": "ship-note-web",
     Accept: "application/vnd.github+json",
   };
   if (token) headers.Authorization = `Bearer ${token}`;
 
-  const resp = await fetch(`${GH_API}${path}`, { headers });
-  if (!resp.ok) {
-    const text = await resp.text();
-    throw new Error(`GitHub API ${resp.status}: ${text.slice(0, 180)}`);
-  }
-  return resp.json();
+  const promise = (async () => {
+    const resp = await fetch(`${GH_API}${path}`, { headers });
+    if (!resp.ok) {
+      const text = await resp.text();
+      const err = new Error(`GitHub API ${resp.status}: ${text.slice(0, 180)}`);
+      err.status = resp.status;
+      err.path = path;
+      err.rateLimitRemaining = resp.headers.get("x-ratelimit-remaining");
+      err.rateLimitReset = resp.headers.get("x-ratelimit-reset");
+      throw err;
+    }
+    return resp.json();
+  })();
+
+  ghResponseCache.set(key, {
+    expiresAt: now + GH_CACHE_TTL_MS,
+    promise,
+  });
+  trimGhCache();
+
+  promise.catch(() => {
+    const active = ghResponseCache.get(key);
+    if (active?.promise === promise) ghResponseCache.delete(key);
+  });
+
+  return promise;
 }
 
 async function fetchChangelogContent(owner, repo, token, ref) {
@@ -234,9 +280,76 @@ async function fetchChangelogContent(owner, repo, token, ref) {
   }
 }
 
+function extractSectionLines(markdown, heading) {
+  const lines = String(markdown || "").split(/\r?\n/);
+  const marker = `## ${heading}`;
+  const start = lines.findIndex((line) => line.trim() === marker);
+  if (start < 0) return [];
+
+  const out = [];
+  for (let i = start + 1; i < lines.length; i += 1) {
+    const line = lines[i];
+    if (line.trim().startsWith("## ")) break;
+    if (!line.trim()) continue;
+    out.push(line.trimEnd());
+  }
+  return out;
+}
+
+function itemTextFromLine(line) {
+  const s = String(line || "").trim();
+  if (!s.startsWith("- ")) return null;
+  const text = s.slice(2).trim();
+  if (!text) return null;
+  if (text.startsWith("[") && text.endsWith("]")) return null;
+  return text;
+}
+
+function buildStructuredItems({ whatShippedLines, commitSubjects, changelogItems }) {
+  const commitLookup = new Map();
+  for (const subject of commitSubjects) {
+    const text = normalizeSubject(subject);
+    const key = canonical(text);
+    if (!key || commitLookup.has(key)) continue;
+    const scopeMatch = String(subject || "").match(/^[a-z]+\(([^)]+)\)!?:/i);
+    commitLookup.set(key, {
+      source: "commit",
+      text,
+      type: classifySubject(subject),
+      scope: scopeMatch ? scopeMatch[1].toLowerCase() : "general",
+    });
+  }
+
+  const changelogLookup = new Map();
+  for (const item of changelogItems) {
+    const key = canonical(item);
+    if (!key || changelogLookup.has(key)) continue;
+    changelogLookup.set(key, item);
+  }
+
+  const out = [];
+  const seen = new Set();
+  for (const line of whatShippedLines) {
+    const text = itemTextFromLine(line);
+    if (!text) continue;
+    const key = canonical(text);
+    if (!key || seen.has(key)) continue;
+    seen.add(key);
+
+    if (commitLookup.has(key)) out.push(commitLookup.get(key));
+    else if (changelogLookup.has(key)) out.push({ source: "changelog", text: changelogLookup.get(key) });
+    else out.push({ source: "derived", text });
+  }
+
+  return out;
+}
+
 export async function buildDraftFromGitHub({ repoInput, preset = "standard", baseRef, targetRef, releaseUrl, token }) {
   const { owner, repo } = parseRepoInput(repoInput);
   const repoUrl = `https://github.com/${owner}/${repo}`;
+
+  const resolvedTarget = (targetRef || "HEAD").trim() || "HEAD";
+  const changelogPromise = fetchChangelogContent(owner, repo, token, resolvedTarget);
 
   let resolvedBase = (baseRef || "").trim();
   if (!resolvedBase) {
@@ -244,7 +357,6 @@ export async function buildDraftFromGitHub({ repoInput, preset = "standard", bas
     resolvedBase = tags?.[0]?.name || "";
   }
 
-  const resolvedTarget = (targetRef || "HEAD").trim() || "HEAD";
   let commitSubjects = [];
 
   if (resolvedBase) {
@@ -258,9 +370,11 @@ export async function buildDraftFromGitHub({ repoInput, preset = "standard", bas
     commitSubjects = (commits || []).map((c) => c?.commit?.message?.split("\n")[0]).filter(Boolean);
   }
 
-  const changelogText = await fetchChangelogContent(owner, repo, token, resolvedTarget);
-  let changelogItems = extractChangelogBullets(changelogText, preset === "short" ? 4 : 6);
-  if (commitSubjects.length === 0) changelogItems = [];
+  let changelogItems = [];
+  if (commitSubjects.length > 0) {
+    const changelogText = await changelogPromise;
+    changelogItems = extractChangelogBullets(changelogText, preset === "short" ? 4 : 6);
+  }
 
   const markdown = renderDraft({
     repo,
@@ -273,12 +387,25 @@ export async function buildDraftFromGitHub({ repoInput, preset = "standard", bas
     releaseUrl,
   });
 
+  const whatShippedLines = extractSectionLines(markdown, "What shipped");
+  const whyItMatters = extractSectionLines(markdown, "Why it matters");
+  const links = extractSectionLines(markdown, "Links");
+  const items = buildStructuredItems({ whatShippedLines, commitSubjects, changelogItems });
+
   return {
+    schemaVersion: "1.0",
     repo: `${owner}/${repo}`,
     baseRef: resolvedBase || null,
     targetRef: resolvedTarget,
+    rangeSpec: resolvedBase ? `${resolvedBase}..${resolvedTarget}` : resolvedTarget,
     preset,
     commitCount: commitSubjects.length,
+    sections: {
+      whatShipped: whatShippedLines,
+      whyItMatters,
+      links,
+    },
+    items,
     markdown,
   };
 }

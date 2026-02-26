@@ -30,11 +30,21 @@ Generate a markdown release/devlog draft from public GitHub repository history.
 ```json
 {
   "ok": true,
+  "schemaVersion": "1.0",
   "repo": "alex-builds-source/ship-note",
   "baseRef": "v0.1.8",
-  "targetRef": "HEAD",
+  "targetRef": "v0.1.9",
+  "rangeSpec": "v0.1.8..v0.1.9",
   "preset": "standard",
   "commitCount": 3,
+  "sections": {
+    "whatShipped": ["- Added parser improvements"],
+    "whyItMatters": ["- Covers `v0.1.8..v0.1.9` using 2 distilled bullet(s) from 3 commit(s)."],
+    "links": ["- Repo: https://github.com/alex-builds-source/ship-note"]
+  },
+  "items": [
+    {"source": "commit", "text": "add parser improvements", "type": "feat", "scope": "general"}
+  ],
   "markdown": "# ship-note release draft\n..."
 }
 ```
@@ -45,6 +55,17 @@ Generate a markdown release/devlog draft from public GitHub repository history.
 {
   "ok": false,
   "error": "only github.com repositories are supported"
+}
+```
+
+Rate limit errors are returned with a dedicated code and hint:
+
+```json
+{
+  "ok": false,
+  "error": "GitHub API rate limit reached.",
+  "code": "GITHUB_RATE_LIMIT",
+  "hint": "Anonymous GitHub API limit reached. Configure GITHUB_TOKEN in Cloudflare Pages to raise API budget."
 }
 ```
 

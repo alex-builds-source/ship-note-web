@@ -175,6 +175,37 @@
         color: var(--muted);
       }
 
+      .note {
+        margin-top: 10px;
+        border: 1px solid #ffffff22;
+        border-radius: 10px;
+        padding: 10px;
+        background: #0d1430;
+      }
+
+      .note strong {
+        font-size: 12px;
+      }
+
+      .note p {
+        margin: 6px 0;
+        font-size: 12px;
+        color: var(--muted);
+        line-height: 1.35;
+      }
+
+      .mono {
+        display: block;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 11px;
+        color: #d4dbff;
+        background: #192654;
+        border: 1px solid #ffffff22;
+        border-radius: 8px;
+        padding: 7px 8px;
+        overflow-x: auto;
+      }
+
       .status {
         margin: 0;
         font-size: 13px;
@@ -290,6 +321,12 @@
 
           <p class="status" id="status">Ready.</p>
           <p class="small">Tip: fill base/target tags for exact release-range comparisons.</p>
+
+          <div class="note">
+            <strong>Optional: higher GitHub API budget</strong>
+            <p>Default mode is anonymous and works for light usage. If you see rate-limit errors during heavier usage, set a server-side <code>GITHUB_TOKEN</code> secret for this Pages project.</p>
+            <code class="mono">wrangler pages secret put GITHUB_TOKEN --project-name ship-note-web</code>
+          </div>
         </div>
 
         <div class="panel">
@@ -453,7 +490,10 @@
             body: JSON.stringify(payload),
           });
           const data = await resp.json();
-          if (!resp.ok || !data.ok) throw new Error(data.error || 'generation failed');
+          if (!resp.ok || !data.ok) {
+            const hint = data?.hint ? ` ${data.hint}` : '';
+            throw new Error(`${data?.error || 'generation failed'}${hint}`);
+          }
 
           output.value = data.markdown;
           updatePreview();
