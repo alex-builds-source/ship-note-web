@@ -57,6 +57,22 @@ test("renderDraft includes deterministic sections", () => {
   assert.match(out, /## Links/);
 });
 
+test("renderDraft supports destination-specific title", () => {
+  const out = renderDraft({
+    repo: "demo",
+    baseRef: "v0.1.0",
+    targetRef: "v0.1.1",
+    commitSubjects: ["feat: add parser"],
+    changelogItems: [],
+    preset: "short",
+    destination: "social",
+    repoUrl: "https://github.com/x/demo",
+    releaseUrl: null,
+  });
+
+  assert.match(out, /^# demo social update/m);
+});
+
 test("renderDraft why section is impact-focused, not placeholder wording", () => {
   const out = renderDraft({
     repo: "demo",

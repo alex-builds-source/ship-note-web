@@ -6,6 +6,7 @@ Generate concise release/devlog drafts from public GitHub repos in a browser.
 - Input a repo URL (`owner/repo` or full GitHub URL)
 - Resolve range (`latest tag..HEAD`, with optional base and target ref overrides)
 - Produce deterministic markdown in `standard` or `short` mode
+- Tune destination tone via `release` / `update` / `social` / `internal`
 - Copy draft, preview rendered output, and share prefilled links
 - Show lane guidance: when to use this tool vs GitHub Auto Notes
 
@@ -26,11 +27,12 @@ Then open the local Pages dev URL printed by Wrangler.
 - Request JSON:
   - `repo` (required)
   - `preset` (`standard` | `short`)
-  - `baseRef` (optional)
-  - `targetRef` (optional, default `HEAD`)
+  - `destination` (`release` | `update` | `social` | `internal`)
+  - `baseRef`/`targetRef` (optional range overrides)
   - `releaseUrl` (optional)
-- Response JSON:
-  - `ok`, `repo`, `baseRef`, `targetRef`, `commitCount`, `markdown`
+- Response JSON (canonical):
+  - `schema_version`, `repo`, `range`, `options`, `stats`, `sections`, `items`, `markdown`
+  - plus transitional legacy aliases (`schemaVersion`, `baseRef`, `targetRef`, `rangeSpec`, `commitCount`)
 
 See `docs/API.md` for details.
 

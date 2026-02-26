@@ -3,6 +3,8 @@ const GH_CACHE_TTL_MS = 30_000;
 const GH_CACHE_MAX_ENTRIES = 200;
 const ghResponseCache = globalThis.__shipNoteWebGhCache || (globalThis.__shipNoteWebGhCache = new Map());
 
+const DESTINATIONS = new Set(["release", "update", "social", "internal"]);
+
 function ghCacheKey(path, token) {
   return `${token ? "auth" : "anon"}:${path}`;
 }
@@ -46,7 +48,7 @@ export function parseRepoInput(input) {
 }
 
 function canonical(text) {
-  return text
+  return String(text || "")
     .toLowerCase()
     .replace(/`/g, "")
     .replace(/[^a-z0-9\s]/g, " ")
@@ -55,12 +57,25 @@ function canonical(text) {
 }
 
 function normalizeSubject(subject) {
-  const out = subject.replace(/^(feat|fix|docs|refactor|test|chore)(\([^)]*\))?!?:\s*/i, "").trim();
-  return out || subject;
+  const out = String(subject || "").replace(/^(feat|fix|docs|refactor|test|chore|perf)(\([^)]*\))?!?:\s*/i, "").trim();
+  return out || String(subject || "");
+}
+
+function classifySubject(subject) {
+  const m = String(subject || "").trim().match(/^([a-z]+)(\([^)]*\))?!?:\s/i);
+  if (!m) return "other";
+  const kind = m[1].toLowerCase();
+  if (["feat", "fix", "perf", "refactor", "docs", "chore", "test"].includes(kind)) return kind;
+  return "other";
+}
+
+function commitScope(subject) {
+  const m = String(subject || "").trim().match(/^[a-z]+\(([^)]+)\)!?:\s/i);
+  return m ? m[1].toLowerCase() : "general";
 }
 
 function lowSignal(subject) {
-  const s = subject.toLowerCase().trim();
+  const s = String(subject || "").toLowerCase().trim();
   if (s.startsWith("docs:")) return ["devlog", "release notes", "changelog"].some((t) => s.includes(t));
   if (s.startsWith("chore:")) {
     return ["release", "version", "dependency", "dependencies", "changelog"].some((t) => s.includes(t));
@@ -80,6 +95,7 @@ export function extractChangelogBullets(markdown, maxItems = 6) {
       break;
     }
   }
+
   if (start !== null) {
     for (let j = start; j < lines.length; j += 1) {
       if (lines[j].trim().startsWith("## ")) {
@@ -101,45 +117,31 @@ export function extractChangelogBullets(markdown, maxItems = 6) {
   return out;
 }
 
-function dedupeBullets(commitSubjects, changelogItems, maxBullets) {
-  const seen = new Set();
-  const bullets = [];
-  let fromCommit = 0;
-  let fromChangelog = 0;
+function makeTitle(repo, preset, destination) {
+  const short = preset === "short";
+  const target = destination || "release";
 
-  for (const subject of commitSubjects) {
-    const item = normalizeSubject(subject);
-    const key = canonical(item);
-    if (!key || seen.has(key)) continue;
-    seen.add(key);
-    bullets.push(`- ${item}`);
-    fromCommit += 1;
-    if (bullets.length >= maxBullets) return { bullets, fromCommit, fromChangelog };
+  if (short) {
+    if (target === "social") return `# ${repo} social update`;
+    if (target === "internal") return `# ${repo} internal update`;
+    return `# ${repo} update`;
   }
 
-  for (const item of changelogItems) {
-    const key = canonical(item);
-    if (!key || seen.has(key)) continue;
-    seen.add(key);
-    bullets.push(`- ${item}`);
-    fromChangelog += 1;
-    if (bullets.length >= maxBullets) return { bullets, fromCommit, fromChangelog };
-  }
-
-  return { bullets, fromCommit, fromChangelog };
+  if (target === "social") return `# ${repo} social draft`;
+  if (target === "internal") return `# ${repo} internal release brief`;
+  if (target === "update") return `# ${repo} update draft`;
+  return `# ${repo} release draft`;
 }
 
-function classifySubject(subject) {
-  const m = String(subject || "").trim().match(/^([a-z]+)(\([^)]*\))?!?:\s/i);
-  if (!m) return "other";
-  const kind = m[1].toLowerCase();
-  if (["feat", "fix", "perf", "refactor", "docs", "chore", "test"].includes(kind)) return kind;
-  return "other";
+function maxBulletsFor(preset, destination) {
+  if (preset === "short") return destination === "social" ? 3 : 4;
+  if (destination === "social") return 5;
+  return 10;
 }
 
-function buildWhyLines({ subjects, fromCommit, fromChangelog, rangeLabel }) {
+function buildWhyLines({ subjects, fromCommit, fromChangelog, rangeLabel, destination }) {
   if (fromCommit === 0 && fromChangelog === 0) {
-    return [`- No substantive draft items were found for \`${rangeLabel}\`; this range may be unchanged or maintenance-only.`];
+    return ["- No substantive draft items were found for this range; this may be a no-change or maintenance-only release."];
   }
 
   const lines = [`- Covers \`${rangeLabel}\` with ${fromCommit} commit-derived item(s).`];
@@ -169,69 +171,158 @@ function buildWhyLines({ subjects, fromCommit, fromChangelog, rangeLabel }) {
   } else if ((counts.chore + counts.test + counts.refactor) >= Math.max(1, fromCommit - 1)) {
     lines.push("- Mostly maintenance-oriented updates; useful for communicating stability and release hygiene.");
   } else {
-    lines.push("- Distills raw commit/changelog data into a concise summary so release readers can triage changes faster.");
+    lines.push("- Distills raw commit/changelog data into a concise summary so readers can triage changes faster.");
   }
 
   if (fromChangelog > 0) {
     lines.push(`- Adds ${fromChangelog} changelog item(s) when commit subjects alone miss context.`);
   }
 
+  if (destination === "social") {
+    lines.push("- Optimized for quick cross-channel sharing with minimal rewrite effort.");
+  } else if (destination === "internal") {
+    lines.push("- Emphasizes concise internal communication for team context and handoffs.");
+  }
+
   return lines;
 }
 
-export function renderDraft({ repo, baseRef, targetRef = "HEAD", commitSubjects, changelogItems, preset = "standard", repoUrl, releaseUrl }) {
+function buildDraftModel({ repo, baseRef, targetRef = "HEAD", commits, changelogItems, preset = "standard", destination = "release", repoUrl, releaseUrl }) {
   const mode = preset === "short" ? "short" : "standard";
+  const channel = DESTINATIONS.has(destination) ? destination : "release";
 
-  let subjects = [...commitSubjects];
-  let changelog = [...changelogItems];
+  let activeCommits = [...commits];
+  let activeChangelog = [...changelogItems];
 
   if (mode === "short") {
-    const filtered = subjects.filter((s) => !lowSignal(s));
+    const filtered = activeCommits.filter((c) => !lowSignal(c.subject));
     if (filtered.length > 0) {
-      subjects = filtered;
-    } else if (subjects.length > 0 && changelog.length > 0) {
+      activeCommits = filtered;
+    } else if (activeCommits.length > 0 && activeChangelog.length > 0) {
       // avoid stale carryover when only low-signal commits are present
-      subjects = [];
-      changelog = [];
+      activeCommits = [];
+      activeChangelog = [];
     }
   }
 
-  const maxBullets = mode === "short" ? 4 : 10;
-  const { bullets, fromCommit, fromChangelog } = dedupeBullets(subjects, changelog, maxBullets);
+  const maxBullets = maxBulletsFor(mode, channel);
+  const seen = new Set();
+  const selected = [];
 
-  const title = mode === "short" ? `# ${repo} update` : `# ${repo} release draft`;
-  const whatShipped = bullets.length > 0 ? bullets.join("\n") : "- No commits or changelog bullets found for selected range.";
+  for (const c of activeCommits) {
+    const text = normalizeSubject(c.subject);
+    const key = canonical(text);
+    if (!key || seen.has(key)) continue;
+    seen.add(key);
+    selected.push({
+      source: "commit",
+      line: `- ${text}`,
+      text,
+      sha: c.sha,
+      type: classifySubject(c.subject),
+      scope: commitScope(c.subject),
+    });
+    if (selected.length >= maxBullets) break;
+  }
+
+  if (selected.length < maxBullets) {
+    for (const item of activeChangelog) {
+      const key = canonical(item);
+      if (!key || seen.has(key)) continue;
+      seen.add(key);
+      selected.push({ source: "changelog", line: `- ${item}`, text: item });
+      if (selected.length >= maxBullets) break;
+    }
+  }
+
+  const fromCommit = selected.filter((x) => x.source === "commit").length;
+  const fromChangelog = selected.filter((x) => x.source === "changelog").length;
+
+  const whatShippedLines = selected.length > 0
+    ? selected.map((x) => x.line)
+    : ["- No commits or changelog bullets found for selected range."];
 
   const rangeLabel = baseRef ? `${baseRef}..${targetRef}` : `${targetRef}`;
-  const whyLines = buildWhyLines({ subjects, fromCommit, fromChangelog, rangeLabel });
+  const whyItMatters = buildWhyLines({
+    subjects: activeCommits.map((c) => c.subject),
+    fromCommit,
+    fromChangelog,
+    rangeLabel,
+    destination: channel,
+  });
 
+  const title = makeTitle(repo, mode, channel);
   const links = [
     `- Repo: ${repoUrl}`,
     releaseUrl ? `- Release: ${releaseUrl}` : null,
   ].filter(Boolean);
 
-  return [
+  const sections = {
+    title,
+    what_shipped: whatShippedLines,
+    why_it_matters: whyItMatters,
+    links,
+  };
+
+  const markdown = [
     title,
     "",
     "## What shipped",
-    whatShipped,
+    whatShippedLines.join("\n"),
     "",
     "## Why it matters",
-    ...whyLines,
+    ...whyItMatters,
     "",
     "## Links",
     ...links,
     "",
   ].join("\n");
+
+  return {
+    markdown,
+    sections,
+    items: selected.map((x) => {
+      if (x.source === "commit") {
+        return {
+          source: "commit",
+          text: x.text,
+          sha: x.sha,
+          type: x.type,
+          scope: x.scope,
+        };
+      }
+      return { source: "changelog", text: x.text };
+    }),
+    stats: {
+      raw_commit_count: commits.length,
+      selected_commit_count: activeCommits.length,
+      commit_items_used: fromCommit,
+      changelog_items_used: fromChangelog,
+      bullet_line_count: selected.length,
+    },
+  };
+}
+
+export function renderDraft({ repo, baseRef, targetRef = "HEAD", commitSubjects, changelogItems, preset = "standard", destination = "release", repoUrl, releaseUrl }) {
+  const commits = (commitSubjects || []).map((subject, idx) => ({ sha: `local-${idx}`, subject }));
+  return buildDraftModel({
+    repo,
+    baseRef,
+    targetRef,
+    commits,
+    changelogItems,
+    preset,
+    destination,
+    repoUrl,
+    releaseUrl,
+  }).markdown;
 }
 
 async function ghFetch(path, token) {
   const key = ghCacheKey(path, token);
   const now = Date.now();
   const cached = ghResponseCache.get(key);
-  if (cached && cached.expiresAt > now) {
-    return cached.promise;
-  }
+  if (cached && cached.expiresAt > now) return cached.promise;
   if (cached) ghResponseCache.delete(key);
 
   const headers = {
@@ -244,7 +335,7 @@ async function ghFetch(path, token) {
     const resp = await fetch(`${GH_API}${path}`, { headers });
     if (!resp.ok) {
       const text = await resp.text();
-      const err = new Error(`GitHub API ${resp.status}: ${text.slice(0, 180)}`);
+      const err = new Error(`GitHub API ${resp.status}: ${text.slice(0, 200)}`);
       err.status = resp.status;
       err.path = path;
       err.rateLimitRemaining = resp.headers.get("x-ratelimit-remaining");
@@ -254,10 +345,7 @@ async function ghFetch(path, token) {
     return resp.json();
   })();
 
-  ghResponseCache.set(key, {
-    expiresAt: now + GH_CACHE_TTL_MS,
-    promise,
-  });
+  ghResponseCache.set(key, { expiresAt: now + GH_CACHE_TTL_MS, promise });
   trimGhCache();
 
   promise.catch(() => {
@@ -280,73 +368,13 @@ async function fetchChangelogContent(owner, repo, token, ref) {
   }
 }
 
-function extractSectionLines(markdown, heading) {
-  const lines = String(markdown || "").split(/\r?\n/);
-  const marker = `## ${heading}`;
-  const start = lines.findIndex((line) => line.trim() === marker);
-  if (start < 0) return [];
-
-  const out = [];
-  for (let i = start + 1; i < lines.length; i += 1) {
-    const line = lines[i];
-    if (line.trim().startsWith("## ")) break;
-    if (!line.trim()) continue;
-    out.push(line.trimEnd());
-  }
-  return out;
-}
-
-function itemTextFromLine(line) {
-  const s = String(line || "").trim();
-  if (!s.startsWith("- ")) return null;
-  const text = s.slice(2).trim();
-  if (!text) return null;
-  if (text.startsWith("[") && text.endsWith("]")) return null;
-  return text;
-}
-
-function buildStructuredItems({ whatShippedLines, commitSubjects, changelogItems }) {
-  const commitLookup = new Map();
-  for (const subject of commitSubjects) {
-    const text = normalizeSubject(subject);
-    const key = canonical(text);
-    if (!key || commitLookup.has(key)) continue;
-    const scopeMatch = String(subject || "").match(/^[a-z]+\(([^)]+)\)!?:/i);
-    commitLookup.set(key, {
-      source: "commit",
-      text,
-      type: classifySubject(subject),
-      scope: scopeMatch ? scopeMatch[1].toLowerCase() : "general",
-    });
-  }
-
-  const changelogLookup = new Map();
-  for (const item of changelogItems) {
-    const key = canonical(item);
-    if (!key || changelogLookup.has(key)) continue;
-    changelogLookup.set(key, item);
-  }
-
-  const out = [];
-  const seen = new Set();
-  for (const line of whatShippedLines) {
-    const text = itemTextFromLine(line);
-    if (!text) continue;
-    const key = canonical(text);
-    if (!key || seen.has(key)) continue;
-    seen.add(key);
-
-    if (commitLookup.has(key)) out.push(commitLookup.get(key));
-    else if (changelogLookup.has(key)) out.push({ source: "changelog", text: changelogLookup.get(key) });
-    else out.push({ source: "derived", text });
-  }
-
-  return out;
-}
-
-export async function buildDraftFromGitHub({ repoInput, preset = "standard", baseRef, targetRef, releaseUrl, token }) {
+export async function buildDraftFromGitHub({ repoInput, preset = "standard", destination = "release", baseRef, targetRef, releaseUrl, token }) {
   const { owner, repo } = parseRepoInput(repoInput);
-  const repoUrl = `https://github.com/${owner}/${repo}`;
+  const repoName = `${owner}/${repo}`;
+  const repoUrl = `https://github.com/${repoName}`;
+
+  const mode = preset === "short" ? "short" : "standard";
+  const channel = DESTINATIONS.has(destination) ? destination : "release";
 
   const resolvedTarget = (targetRef || "HEAD").trim() || "HEAD";
   const changelogPromise = fetchChangelogContent(owner, repo, token, resolvedTarget);
@@ -357,55 +385,71 @@ export async function buildDraftFromGitHub({ repoInput, preset = "standard", bas
     resolvedBase = tags?.[0]?.name || "";
   }
 
-  let commitSubjects = [];
-
+  let commits = [];
   if (resolvedBase) {
     const compare = await ghFetch(
       `/repos/${owner}/${repo}/compare/${encodeURIComponent(resolvedBase)}...${encodeURIComponent(resolvedTarget)}`,
       token,
     );
-    commitSubjects = (compare.commits || []).map((c) => c?.commit?.message?.split("\n")[0]).filter(Boolean);
+    commits = (compare.commits || [])
+      .map((c) => ({ sha: c?.sha || "", subject: c?.commit?.message?.split("\n")[0] || "" }))
+      .filter((c) => c.subject);
   } else {
-    const commits = await ghFetch(`/repos/${owner}/${repo}/commits?sha=${encodeURIComponent(resolvedTarget)}&per_page=20`, token);
-    commitSubjects = (commits || []).map((c) => c?.commit?.message?.split("\n")[0]).filter(Boolean);
+    const ghCommits = await ghFetch(`/repos/${owner}/${repo}/commits?sha=${encodeURIComponent(resolvedTarget)}&per_page=20`, token);
+    commits = (ghCommits || [])
+      .map((c) => ({ sha: c?.sha || "", subject: c?.commit?.message?.split("\n")[0] || "" }))
+      .filter((c) => c.subject);
   }
 
   let changelogItems = [];
-  if (commitSubjects.length > 0) {
+  if (commits.length > 0) {
     const changelogText = await changelogPromise;
-    changelogItems = extractChangelogBullets(changelogText, preset === "short" ? 4 : 6);
+    changelogItems = extractChangelogBullets(changelogText, mode === "short" ? 4 : 6);
   }
 
-  const markdown = renderDraft({
+  const model = buildDraftModel({
     repo,
     baseRef: resolvedBase,
     targetRef: resolvedTarget,
-    commitSubjects,
+    commits,
     changelogItems,
-    preset,
+    preset: mode,
+    destination: channel,
     repoUrl,
     releaseUrl,
   });
 
-  const whatShippedLines = extractSectionLines(markdown, "What shipped");
-  const whyItMatters = extractSectionLines(markdown, "Why it matters");
-  const links = extractSectionLines(markdown, "Links");
-  const items = buildStructuredItems({ whatShippedLines, commitSubjects, changelogItems });
+  const rangeSpec = resolvedBase ? `${resolvedBase}..${resolvedTarget}` : resolvedTarget;
+  const payload = {
+    schema_version: "1.0",
+    repo: {
+      name: repoName,
+      url: repoUrl,
+    },
+    range: {
+      base_ref: resolvedBase || null,
+      target_ref: resolvedTarget,
+      range_spec: rangeSpec,
+    },
+    options: {
+      preset: mode,
+      group_by: "type",
+      destination: channel,
+    },
+    stats: model.stats,
+    sections: model.sections,
+    items: model.items,
+    markdown: model.markdown,
 
-  return {
+    // Legacy aliases for transitional compatibility.
     schemaVersion: "1.0",
-    repo: `${owner}/${repo}`,
     baseRef: resolvedBase || null,
     targetRef: resolvedTarget,
-    rangeSpec: resolvedBase ? `${resolvedBase}..${resolvedTarget}` : resolvedTarget,
-    preset,
-    commitCount: commitSubjects.length,
-    sections: {
-      whatShipped: whatShippedLines,
-      whyItMatters,
-      links,
-    },
-    items,
-    markdown,
+    rangeSpec,
+    preset: mode,
+    destination: channel,
+    commitCount: commits.length,
   };
+
+  return payload;
 }

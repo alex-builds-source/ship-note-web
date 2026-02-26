@@ -144,6 +144,12 @@
         gap: 8px;
       }
 
+      .row3 {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 8px;
+      }
+
       .actions, .sample-actions {
         display: flex;
         flex-wrap: wrap;
@@ -281,12 +287,21 @@
               <input id="repo" name="repo" placeholder="https://github.com/alex-builds-source/ship-note" required />
             </label>
 
-            <div class="row2">
+            <div class="row3">
               <label>
                 Preset
                 <select id="preset" name="preset">
                   <option value="standard">standard</option>
                   <option value="short">short</option>
+                </select>
+              </label>
+              <label>
+                Destination
+                <select id="destination" name="destination">
+                  <option value="release">release</option>
+                  <option value="update">update</option>
+                  <option value="social">social</option>
+                  <option value="internal">internal</option>
                 </select>
               </label>
               <label>
@@ -354,6 +369,7 @@
       const fields = {
         repo: document.getElementById('repo'),
         preset: document.getElementById('preset'),
+        destination: document.getElementById('destination'),
         baseRef: document.getElementById('baseRef'),
         targetRef: document.getElementById('targetRef'),
         releaseUrl: document.getElementById('releaseUrl'),
@@ -423,6 +439,7 @@
         const p = new URLSearchParams(window.location.search);
         fields.repo.value = p.get('repo') || '';
         fields.preset.value = p.get('preset') || 'standard';
+        fields.destination.value = p.get('destination') || 'release';
         fields.baseRef.value = p.get('baseRef') || '';
         fields.targetRef.value = p.get('targetRef') || '';
         fields.releaseUrl.value = p.get('releaseUrl') || '';
@@ -443,6 +460,7 @@
           'ship-note': {
             repo: 'alex-builds-source/ship-note',
             preset: 'standard',
+            destination: 'release',
             baseRef: 'v0.1.8',
             targetRef: 'v0.1.9',
             releaseUrl: 'https://github.com/alex-builds-source/ship-note/releases/tag/v0.1.9',
@@ -450,6 +468,7 @@
           'repo-preflight': {
             repo: 'alex-builds-source/repo-preflight',
             preset: 'standard',
+            destination: 'internal',
             baseRef: 'v0.1.10',
             targetRef: 'v0.1.11',
             releaseUrl: 'https://github.com/alex-builds-source/repo-preflight/releases/tag/v0.1.11',
@@ -457,6 +476,7 @@
           'notes-bench-pr': {
             repo: 'alex-builds-source/notes-bench-pr',
             preset: 'standard',
+            destination: 'release',
             baseRef: 'v0.1.9',
             targetRef: 'v0.1.10',
             releaseUrl: 'https://github.com/alex-builds-source/notes-bench-pr/releases/tag/v0.1.10',
@@ -478,6 +498,7 @@
         const payload = {
           repo: fields.repo.value.trim(),
           preset: fields.preset.value,
+          destination: fields.destination.value,
           baseRef: fields.baseRef.value.trim(),
           targetRef: fields.targetRef.value.trim(),
           releaseUrl: fields.releaseUrl.value.trim(),
@@ -497,7 +518,12 @@
 
           output.value = data.markdown;
           updatePreview();
-          setStatus(`Done: ${data.repo} • commits=${data.commitCount} • range=${data.baseRef || 'none'}..${data.targetRef || 'HEAD'}`);
+
+          const repoName = typeof data.repo === 'string' ? data.repo : (data.repo?.name || 'repo');
+          const commitCount = data.stats?.raw_commit_count ?? data.commitCount ?? 0;
+          const base = data.range?.base_ref ?? data.baseRef ?? 'none';
+          const target = data.range?.target_ref ?? data.targetRef ?? 'HEAD';
+          setStatus(`Done: ${repoName} • commits=${commitCount} • range=${base}..${target}`);
         } catch (err) {
           setStatus(`Error: ${err.message || err}`);
         }
