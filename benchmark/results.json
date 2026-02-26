@@ -1,0 +1,540 @@
+{
+  "summary": {
+    "sampleCount": 20,
+    "comparableCount": 20,
+    "wins": {
+      "shipNoteWeb": 19,
+      "githubAuto": 1,
+      "tie": 0,
+      "shipNoteWinRate": 0.95
+    },
+    "averages": {
+      "githubAutoScore": 35.98948916990433,
+      "shipNoteWebScore": 49.75026950544231,
+      "githubAutoLatencyMs": 342.4,
+      "shipNoteWebLatencyMs": 512.95
+    }
+  },
+  "results": [
+    {
+      "id": "ship-note-011",
+      "repo": "alex-builds-source/ship-note",
+      "previousTag": "v0.1.0",
+      "targetTag": "v0.1.1",
+      "referenceLength": 1304,
+      "githubAuto": {
+        "ok": true,
+        "latencyMs": 369,
+        "length": 91,
+        "similarity": 0.14814814814814814,
+        "coverage": 0,
+        "noise": 0,
+        "score": 35.556925925925924
+      },
+      "shipNoteWeb": {
+        "ok": true,
+        "latencyMs": 504,
+        "length": 711,
+        "similarity": 0.5419354838709678,
+        "coverage": 0.25,
+        "noise": 0.18181818181818182,
+        "score": 55.03705571847508
+      },
+      "winner": "ship-note-web"
+    },
+    {
+      "id": "ship-note-012",
+      "repo": "alex-builds-source/ship-note",
+      "previousTag": "v0.1.1",
+      "targetTag": "v0.1.2",
+      "referenceLength": 1752,
+      "githubAuto": {
+        "ok": true,
+        "latencyMs": 375,
+        "length": 91,
+        "similarity": 0.12598425196850394,
+        "coverage": 0,
+        "noise": 0,
+        "score": 34.664370078740156
+      },
+      "shipNoteWeb": {
+        "ok": true,
+        "latencyMs": 474,
+        "length": 735,
+        "similarity": 0.5485714285714286,
+        "coverage": 0.18181818181818182,
+        "noise": 0.6666666666666666,
+        "score": 43.59006926406926
+      },
+      "winner": "ship-note-web"
+    },
+    {
+      "id": "ship-note-013",
+      "repo": "alex-builds-source/ship-note",
+      "previousTag": "v0.1.2",
+      "targetTag": "v0.1.3",
+      "referenceLength": 2079,
+      "githubAuto": {
+        "ok": true,
+        "latencyMs": 349,
+        "length": 91,
+        "similarity": 0.1103448275862069,
+        "coverage": 0,
+        "noise": 0,
+        "score": 34.06479310344828
+      },
+      "shipNoteWeb": {
+        "ok": true,
+        "latencyMs": 481,
+        "length": 540,
+        "similarity": 0.47058823529411764,
+        "coverage": 0.1111111111111111,
+        "noise": 0.14285714285714285,
+        "score": 48.81871988795518
+      },
+      "winner": "ship-note-web"
+    },
+    {
+      "id": "ship-note-014",
+      "repo": "alex-builds-source/ship-note",
+      "previousTag": "v0.1.3",
+      "targetTag": "v0.1.4",
+      "referenceLength": 2424,
+      "githubAuto": {
+        "ok": true,
+        "latencyMs": 345,
+        "length": 91,
+        "similarity": 0.10256410256410256,
+        "coverage": 0,
+        "noise": 0,
+        "score": 33.7575641025641
+      },
+      "shipNoteWeb": {
+        "ok": true,
+        "latencyMs": 600,
+        "length": 634,
+        "similarity": 0.4236453201970443,
+        "coverage": 0.12121212121212122,
+        "noise": 0.4444444444444444,
+        "score": 41.09328755535652
+      },
+      "winner": "ship-note-web"
+    },
+    {
+      "id": "ship-note-015",
+      "repo": "alex-builds-source/ship-note",
+      "previousTag": "v0.1.4",
+      "targetTag": "v0.1.5",
+      "referenceLength": 2704,
+      "githubAuto": {
+        "ok": true,
+        "latencyMs": 331,
+        "length": 91,
+        "similarity": 0.09523809523809523,
+        "coverage": 0,
+        "noise": 0,
+        "score": 33.47852380952381
+      },
+      "shipNoteWeb": {
+        "ok": true,
+        "latencyMs": 535,
+        "length": 616,
+        "similarity": 0.40384615384615385,
+        "coverage": 0.08333333333333333,
+        "noise": 0.125,
+        "score": 45.61884615384615
+      },
+      "winner": "ship-note-web"
+    },
+    {
+      "id": "ship-note-016",
+      "repo": "alex-builds-source/ship-note",
+      "previousTag": "v0.1.5",
+      "targetTag": "v0.1.6",
+      "referenceLength": 3033,
+      "githubAuto": {
+        "ok": true,
+        "latencyMs": 385,
+        "length": 91,
+        "similarity": 0.08791208791208792,
+        "coverage": 0,
+        "noise": 0,
+        "score": 33.13148351648352
+      },
+      "shipNoteWeb": {
+        "ok": true,
+        "latencyMs": 554,
+        "length": 451,
+        "similarity": 0.3127962085308057,
+        "coverage": 0.05,
+        "noise": 0.16666666666666666,
+        "score": 40.12451500789889
+      },
+      "winner": "ship-note-web"
+    },
+    {
+      "id": "ship-note-017",
+      "repo": "alex-builds-source/ship-note",
+      "previousTag": "v0.1.6",
+      "targetTag": "v0.1.7",
+      "referenceLength": 3269,
+      "githubAuto": {
+        "ok": true,
+        "latencyMs": 337,
+        "length": 91,
+        "similarity": 0.08376963350785341,
+        "coverage": 0,
+        "noise": 0,
+        "score": 33.013785340314136
+      },
+      "shipNoteWeb": {
+        "ok": true,
+        "latencyMs": 537,
+        "length": 549,
+        "similarity": 0.35964912280701755,
+        "coverage": 0.047619047619047616,
+        "noise": 0.5,
+        "score": 35.27753634085213
+      },
+      "winner": "ship-note-web"
+    },
+    {
+      "id": "ship-note-018",
+      "repo": "alex-builds-source/ship-note",
+      "previousTag": "v0.1.7",
+      "targetTag": "v0.1.8",
+      "referenceLength": 3622,
+      "githubAuto": {
+        "ok": true,
+        "latencyMs": 322,
+        "length": 91,
+        "similarity": 0.08163265306122448,
+        "coverage": 0,
+        "noise": 0,
+        "score": 32.94330612244898
+      },
+      "shipNoteWeb": {
+        "ok": true,
+        "latencyMs": 495,
+        "length": 520,
+        "similarity": 0.28820960698689957,
+        "coverage": 0.043478260869565216,
+        "noise": 0.2857142857142857,
+        "score": 36.62344639127723
+      },
+      "winner": "ship-note-web"
+    },
+    {
+      "id": "ship-note-019",
+      "repo": "alex-builds-source/ship-note",
+      "previousTag": "v0.1.8",
+      "targetTag": "v0.1.9",
+      "referenceLength": 91,
+      "githubAuto": {
+        "ok": true,
+        "latencyMs": 292,
+        "length": 91,
+        "similarity": 1,
+        "coverage": 0.5,
+        "noise": 0,
+        "score": 84.708
+      },
+      "shipNoteWeb": {
+        "ok": true,
+        "latencyMs": 726,
+        "length": 623,
+        "similarity": 0.2033898305084746,
+        "coverage": 0.5,
+        "noise": 0.14285714285714285,
+        "score": 49.55245036319613
+      },
+      "winner": "github-auto"
+    },
+    {
+      "id": "repo-preflight-011",
+      "repo": "alex-builds-source/repo-preflight",
+      "previousTag": "v0.1.0",
+      "targetTag": "v0.1.1",
+      "referenceLength": 358,
+      "githubAuto": {
+        "ok": true,
+        "latencyMs": 359,
+        "length": 96,
+        "similarity": 0.045454545454545456,
+        "coverage": 0,
+        "noise": 0,
+        "score": 31.45918181818182
+      },
+      "shipNoteWeb": {
+        "ok": true,
+        "latencyMs": 508,
+        "length": 729,
+        "similarity": 0.6470588235294118,
+        "coverage": 0.6666666666666666,
+        "noise": 0.1111111111111111,
+        "score": 73.15213071895425
+      },
+      "winner": "ship-note-web"
+    },
+    {
+      "id": "repo-preflight-012",
+      "repo": "alex-builds-source/repo-preflight",
+      "previousTag": "v0.1.1",
+      "targetTag": "v0.1.2",
+      "referenceLength": 363,
+      "githubAuto": {
+        "ok": true,
+        "latencyMs": 317,
+        "length": 96,
+        "similarity": 0.10526315789473684,
+        "coverage": 0,
+        "noise": 0,
+        "score": 33.89352631578947
+      },
+      "shipNoteWeb": {
+        "ok": true,
+        "latencyMs": 535,
+        "length": 703,
+        "similarity": 0.5060240963855421,
+        "coverage": 0,
+        "noise": 0.1,
+        "score": 47.705963855421686
+      },
+      "winner": "ship-note-web"
+    },
+    {
+      "id": "repo-preflight-013",
+      "repo": "alex-builds-source/repo-preflight",
+      "previousTag": "v0.1.2",
+      "targetTag": "v0.1.3",
+      "referenceLength": 438,
+      "githubAuto": {
+        "ok": true,
+        "latencyMs": 367,
+        "length": 96,
+        "similarity": 0.047619047619047616,
+        "coverage": 0,
+        "noise": 0,
+        "score": 31.537761904761908
+      },
+      "shipNoteWeb": {
+        "ok": true,
+        "latencyMs": 461,
+        "length": 777,
+        "similarity": 0.6041666666666666,
+        "coverage": 0.4,
+        "noise": 0.1,
+        "score": 63.705666666666666
+      },
+      "winner": "ship-note-web"
+    },
+    {
+      "id": "repo-preflight-014",
+      "repo": "alex-builds-source/repo-preflight",
+      "previousTag": "v0.1.3",
+      "targetTag": "v0.1.4",
+      "referenceLength": 430,
+      "githubAuto": {
+        "ok": true,
+        "latencyMs": 339,
+        "length": 96,
+        "similarity": 0.046511627906976744,
+        "coverage": 0,
+        "noise": 0,
+        "score": 31.521465116279067
+      },
+      "shipNoteWeb": {
+        "ok": true,
+        "latencyMs": 462,
+        "length": 612,
+        "similarity": 0.449438202247191,
+        "coverage": 0.1,
+        "noise": 0.1111111111111111,
+        "score": 48.293305867665424
+      },
+      "winner": "ship-note-web"
+    },
+    {
+      "id": "repo-preflight-015",
+      "repo": "alex-builds-source/repo-preflight",
+      "previousTag": "v0.1.4",
+      "targetTag": "v0.1.5",
+      "referenceLength": 303,
+      "githubAuto": {
+        "ok": true,
+        "latencyMs": 370,
+        "length": 96,
+        "similarity": 0.058823529411764705,
+        "coverage": 0,
+        "noise": 0,
+        "score": 31.98294117647059
+      },
+      "shipNoteWeb": {
+        "ok": true,
+        "latencyMs": 457,
+        "length": 579,
+        "similarity": 0.4383561643835616,
+        "coverage": 0,
+        "noise": 0.1111111111111111,
+        "score": 44.85502435312024
+      },
+      "winner": "ship-note-web"
+    },
+    {
+      "id": "repo-preflight-016",
+      "repo": "alex-builds-source/repo-preflight",
+      "previousTag": "v0.1.5",
+      "targetTag": "v0.1.6",
+      "referenceLength": 374,
+      "githubAuto": {
+        "ok": true,
+        "latencyMs": 318,
+        "length": 96,
+        "similarity": 0.05555555555555555,
+        "coverage": 0,
+        "noise": 0,
+        "score": 31.90422222222222
+      },
+      "shipNoteWeb": {
+        "ok": true,
+        "latencyMs": 477,
+        "length": 710,
+        "similarity": 0.5783132530120482,
+        "coverage": 0,
+        "noise": 0.1111111111111111,
+        "score": 50.4333078982597
+      },
+      "winner": "ship-note-web"
+    },
+    {
+      "id": "repo-preflight-017",
+      "repo": "alex-builds-source/repo-preflight",
+      "previousTag": "v0.1.6",
+      "targetTag": "v0.1.7",
+      "referenceLength": 421,
+      "githubAuto": {
+        "ok": true,
+        "latencyMs": 312,
+        "length": 96,
+        "similarity": 0.05128205128205128,
+        "coverage": 0,
+        "noise": 0,
+        "score": 31.739282051282053
+      },
+      "shipNoteWeb": {
+        "ok": true,
+        "latencyMs": 528,
+        "length": 669,
+        "similarity": 0.475,
+        "coverage": 0.125,
+        "noise": 0.1111111111111111,
+        "score": 49.99977777777778
+      },
+      "winner": "ship-note-web"
+    },
+    {
+      "id": "repo-preflight-018",
+      "repo": "alex-builds-source/repo-preflight",
+      "previousTag": "v0.1.7",
+      "targetTag": "v0.1.8",
+      "referenceLength": 383,
+      "githubAuto": {
+        "ok": true,
+        "latencyMs": 381,
+        "length": 96,
+        "similarity": 0.05555555555555555,
+        "coverage": 0,
+        "noise": 0,
+        "score": 31.84122222222222
+      },
+      "shipNoteWeb": {
+        "ok": true,
+        "latencyMs": 494,
+        "length": 711,
+        "similarity": 0.5609756097560976,
+        "coverage": 0.4,
+        "noise": 0.1111111111111111,
+        "score": 61.72280216802168
+      },
+      "winner": "ship-note-web"
+    },
+    {
+      "id": "agent-first-012",
+      "repo": "alex-builds-source/agent-first-starter",
+      "previousTag": "v0.1.1",
+      "targetTag": "v0.1.2",
+      "referenceLength": 261,
+      "githubAuto": {
+        "ok": true,
+        "latencyMs": 344,
+        "length": 101,
+        "similarity": 0.05714285714285714,
+        "coverage": 0.5,
+        "noise": 0,
+        "score": 46.94171428571428
+      },
+      "shipNoteWeb": {
+        "ok": true,
+        "latencyMs": 487,
+        "length": 645,
+        "similarity": 0.5432098765432098,
+        "coverage": 0.5,
+        "noise": 0.375,
+        "score": 58.74139506172839
+      },
+      "winner": "ship-note-web"
+    },
+    {
+      "id": "agent-first-013",
+      "repo": "alex-builds-source/agent-first-starter",
+      "previousTag": "v0.1.2",
+      "targetTag": "v0.1.3",
+      "referenceLength": 349,
+      "githubAuto": {
+        "ok": true,
+        "latencyMs": 335,
+        "length": 101,
+        "similarity": 0.05714285714285714,
+        "coverage": 0,
+        "noise": 0,
+        "score": 31.950714285714284
+      },
+      "shipNoteWeb": {
+        "ok": true,
+        "latencyMs": 460,
+        "length": 705,
+        "similarity": 0.47058823529411764,
+        "coverage": 0.3,
+        "noise": 0.1,
+        "score": 55.36352941176471
+      },
+      "winner": "ship-note-web"
+    },
+    {
+      "id": "agent-first-014",
+      "repo": "alex-builds-source/agent-first-starter",
+      "previousTag": "v0.1.3",
+      "targetTag": "v0.1.4",
+      "referenceLength": 540,
+      "githubAuto": {
+        "ok": true,
+        "latencyMs": 301,
+        "length": 101,
+        "similarity": 0,
+        "coverage": 0,
+        "noise": 0,
+        "score": 29.698999999999998
+      },
+      "shipNoteWeb": {
+        "ok": true,
+        "latencyMs": 484,
+        "length": 640,
+        "similarity": 0.41237113402061853,
+        "coverage": 0.14285714285714285,
+        "noise": 0.25,
+        "score": 45.29655964653902
+      },
+      "winner": "ship-note-web"
+    }
+  ]
+}
