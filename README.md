@@ -71,10 +71,12 @@ To add a scenario:
 
 ```bash
 npm run dogfood:destinations
+npm run dogfood:quality
 ```
 
 Outputs:
 - `docs/dogfood/latest/SUMMARY.md`
+- `docs/dogfood/latest/QUALITY_REPORT.md`
 - `docs/dogfood/latest/*.md`
 - `docs/dogfood/latest/*.json`
 

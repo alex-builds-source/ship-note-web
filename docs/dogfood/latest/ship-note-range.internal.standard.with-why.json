@@ -26,16 +26,14 @@
     "title": "# ship-note internal release brief",
     "what_shipped": [
       "- Make why-section optional and ship v0.1.11",
-      "- `--with-why` flag to include `Why it matters` only when explicitly requested.",
-      "- `Why it matters` is no longer included by default in markdown output.",
-      "- Preserved structured payload compatibility by returning `sections.why_it_matters` as an empty list when omitted.",
+      "- --with-why flag to include Why it matters only when explicitly requested.",
+      "- Why it matters is no longer included by default in markdown output.",
+      "- Preserved structured payload compatibility by returning sections.why_it_matters as an empty list when omitted.",
       "- Expanded tests for default omission vs explicit inclusion behavior."
     ],
     "why_it_matters": [
-      "- Covers `v0.1.10..v0.1.11` with 1 commit-derived item(s).",
-      "- Distills raw commit/changelog data into a concise summary so readers can triage changes faster.",
-      "- Adds 4 changelog item(s) when commit subjects alone miss context.",
-      "- Emphasizes concise internal communication for team context and handoffs."
+      "- This range includes mixed technical updates; review highlights for the main changes.",
+      "- Use this as a handoff summary for team context and planning."
     ],
     "links": [
       "- Repo: https://github.com/alex-builds-source/ship-note"
@@ -51,22 +49,22 @@
     },
     {
       "source": "changelog",
-      "text": "`--with-why` flag to include `Why it matters` only when explicitly requested."
+      "text": "--with-why flag to include Why it matters only when explicitly requested."
     },
     {
       "source": "changelog",
-      "text": "`Why it matters` is no longer included by default in markdown output."
+      "text": "Why it matters is no longer included by default in markdown output."
     },
     {
       "source": "changelog",
-      "text": "Preserved structured payload compatibility by returning `sections.why_it_matters` as an empty list when omitted."
+      "text": "Preserved structured payload compatibility by returning sections.why_it_matters as an empty list when omitted."
     },
     {
       "source": "changelog",
       "text": "Expanded tests for default omission vs explicit inclusion behavior."
     }
   ],
-  "markdown": "# ship-note internal release brief\n\n## Internal highlights\n- Make why-section optional and ship v0.1.11\n- `--with-why` flag to include `Why it matters` only when explicitly requested.\n- `Why it matters` is no longer included by default in markdown output.\n- Preserved structured payload compatibility by returning `sections.why_it_matters` as an empty list when omitted.\n- Expanded tests for default omission vs explicit inclusion behavior.\n\n## Why it matters internally\n- Covers `v0.1.10..v0.1.11` with 1 commit-derived item(s).\n- Distills raw commit/changelog data into a concise summary so readers can triage changes faster.\n- Adds 4 changelog item(s) when commit subjects alone miss context.\n- Emphasizes concise internal communication for team context and handoffs.\n\n## References\n- Repo: https://github.com/alex-builds-source/ship-note\n",
+  "markdown": "# ship-note internal release brief\n\n## Internal highlights\n- Make why-section optional and ship v0.1.11\n- --with-why flag to include Why it matters only when explicitly requested.\n- Why it matters is no longer included by default in markdown output.\n- Preserved structured payload compatibility by returning sections.why_it_matters as an empty list when omitted.\n- Expanded tests for default omission vs explicit inclusion behavior.\n\n## Why it matters internally\n- This range includes mixed technical updates; review highlights for the main changes.\n- Use this as a handoff summary for team context and planning.\n\n## References\n- Repo: https://github.com/alex-builds-source/ship-note\n",
   "schemaVersion": "1.0",
   "baseRef": "v0.1.10",
   "targetRef": "v0.1.11",

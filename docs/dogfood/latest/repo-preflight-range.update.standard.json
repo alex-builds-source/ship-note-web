@@ -19,15 +19,13 @@
     "raw_commit_count": 1,
     "selected_commit_count": 1,
     "commit_items_used": 1,
-    "changelog_items_used": 2,
-    "bullet_line_count": 3
+    "changelog_items_used": 0,
+    "bullet_line_count": 1
   },
   "sections": {
     "title": "# repo-preflight update draft",
     "what_shipped": [
-      "- Sync package metadata version and add guard test",
-      "- Synced package metadata versioning by aligning `pyproject.toml` with runtime `__version__`.",
-      "- Added regression coverage to ensure project metadata and package version stay in lockstep."
+      "- Sync package metadata version and add guard test"
     ],
     "why_it_matters": [],
     "links": [
@@ -41,17 +39,9 @@
       "sha": "ccdb4900a7ea6ac4887691f14039c2317e74719d",
       "type": "other",
       "scope": "general"
-    },
-    {
-      "source": "changelog",
-      "text": "Synced package metadata versioning by aligning `pyproject.toml` with runtime `__version__`."
-    },
-    {
-      "source": "changelog",
-      "text": "Added regression coverage to ensure project metadata and package version stay in lockstep."
     }
   ],
-  "markdown": "# repo-preflight update draft\n\n## Update highlights\n- Sync package metadata version and add guard test\n- Synced package metadata versioning by aligning `pyproject.toml` with runtime `__version__`.\n- Added regression coverage to ensure project metadata and package version stay in lockstep.\n\n## References\n- Repo: https://github.com/alex-builds-source/repo-preflight\n",
+  "markdown": "# repo-preflight update draft\n\n## Update highlights\n- Sync package metadata version and add guard test\n\n## References\n- Repo: https://github.com/alex-builds-source/repo-preflight\n",
   "schemaVersion": "1.0",
   "baseRef": "v0.1.10",
   "targetRef": "v0.1.11",

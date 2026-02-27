@@ -180,10 +180,8 @@ function sectionHeadings(destination) {
 
 function buildWhyLines({ subjects, fromCommit, fromChangelog, rangeLabel, destination }) {
   if (fromCommit === 0 && fromChangelog === 0) {
-    return ["- No substantive draft items were found for this range; this may be a no-change or maintenance-only release."];
+    return ["- No substantive updates were detected for this range."];
   }
-
-  const lines = [`- Covers \`${rangeLabel}\` with ${fromCommit} commit-derived item(s).`];
 
   const counts = {
     feat: 0,
@@ -203,27 +201,57 @@ function buildWhyLines({ subjects, fromCommit, fromChangelog, rangeLabel, destin
   if (counts.fix) impact.push(`${counts.fix} bug ${counts.fix === 1 ? "fix" : "fixes"}`);
   if (counts.perf) impact.push(`${counts.perf} performance ${counts.perf === 1 ? "improvement" : "improvements"}`);
 
+  const lines = [];
   if (impact.length > 0) {
-    lines.push(`- Highlights ${impact.join(", ")} so readers can quickly understand user-facing impact.`);
+    lines.push(`- In \`${rangeLabel}\`, the most meaningful user-facing changes are ${impact.join(", ")}.`);
   } else if (counts.docs >= Math.max(1, fromCommit - 1)) {
-    lines.push("- Mostly documentation-oriented updates; useful for keeping usage guidance aligned.");
+    lines.push("- This range is mostly documentation and guidance updates.");
   } else if ((counts.chore + counts.test + counts.refactor) >= Math.max(1, fromCommit - 1)) {
-    lines.push("- Mostly maintenance-oriented updates; useful for communicating stability and release hygiene.");
+    lines.push("- This range is mostly maintenance work focused on stability and code health.");
   } else {
-    lines.push("- Distills raw commit/changelog data into a concise summary so readers can triage changes faster.");
-  }
-
-  if (fromChangelog > 0) {
-    lines.push(`- Adds ${fromChangelog} changelog item(s) when commit subjects alone miss context.`);
+    lines.push("- This range includes mixed technical updates; review highlights for the main changes.");
   }
 
   if (destination === "social") {
-    lines.push("- Optimized for quick cross-channel sharing with minimal rewrite effort.");
+    lines.push("- Keep this tight and channel-ready: one hook line + top bullets.");
   } else if (destination === "internal") {
-    lines.push("- Emphasizes concise internal communication for team context and handoffs.");
+    lines.push("- Use this as a handoff summary for team context and planning.");
+  } else if (destination === "update") {
+    lines.push("- Best used for concise stakeholder updates between full releases.");
   }
 
   return lines;
+}
+
+function isMetaHeavyText(text) {
+  const s = canonical(text);
+  return [
+    "flag",
+    "tests",
+    "test coverage",
+    "changelog",
+    "markdown output",
+    "sections",
+    "pyproject",
+    "__version__",
+    "regression coverage",
+    "lockstep",
+  ].some((token) => s.includes(token));
+}
+
+function normalizeOutputText(text, destination) {
+  let out = String(text || "")
+    .replace(/`([^`]+)`/g, "$1")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  if (destination === "social" && out.length > 95) {
+    out = `${out.slice(0, 92)}...`;
+  } else if (destination === "update" && out.length > 120) {
+    out = `${out.slice(0, 117)}...`;
+  }
+
+  return out;
 }
 
 function buildDraftModel({
@@ -259,29 +287,70 @@ function buildDraftModel({
   const seen = new Set();
   const selected = [];
 
-  for (const c of activeCommits) {
-    const text = normalizeSubject(c.subject);
-    const key = canonical(text);
-    if (!key || seen.has(key)) continue;
+  const commitCandidates = activeCommits.map((c) => ({
+    source: "commit",
+    text: normalizeSubject(c.subject),
+    sha: c.sha,
+    type: classifySubject(c.subject),
+    scope: commitScope(c.subject),
+    subject: c.subject,
+  }));
+
+  const changelogCandidates = activeChangelog.map((item) => ({
+    source: "changelog",
+    text: item,
+  }));
+
+  function addCandidate(candidate) {
+    const normalizedText = normalizeOutputText(candidate.text, channel);
+    const key = canonical(normalizedText);
+    if (!key || seen.has(key)) return false;
     seen.add(key);
-    selected.push({
-      source: "commit",
-      line: `- ${text}`,
-      text,
-      sha: c.sha,
-      type: classifySubject(c.subject),
-      scope: commitScope(c.subject),
-    });
+
+    if (candidate.source === "commit") {
+      selected.push({
+        source: "commit",
+        line: `- ${normalizedText}`,
+        text: normalizedText,
+        sha: candidate.sha,
+        type: candidate.type,
+        scope: candidate.scope,
+      });
+    } else {
+      selected.push({
+        source: "changelog",
+        line: `- ${normalizedText}`,
+        text: normalizedText,
+      });
+    }
+    return true;
+  }
+
+  const preferHighSignal = channel === "social" || channel === "update";
+
+  for (const c of commitCandidates) {
     if (selected.length >= maxBullets) break;
+    if (preferHighSignal && isMetaHeavyText(c.text)) continue;
+    addCandidate(c);
   }
 
   if (selected.length < maxBullets) {
-    for (const item of activeChangelog) {
-      const key = canonical(item);
-      if (!key || seen.has(key)) continue;
-      seen.add(key);
-      selected.push({ source: "changelog", line: `- ${item}`, text: item });
+    for (const item of changelogCandidates) {
       if (selected.length >= maxBullets) break;
+      if (preferHighSignal && isMetaHeavyText(item.text)) continue;
+      addCandidate(item);
+    }
+  }
+
+  // fallback: if social filtering removed too much, allow remaining candidates
+  if (selected.length === 0) {
+    for (const c of commitCandidates) {
+      if (selected.length >= maxBullets) break;
+      addCandidate(c);
+    }
+    for (const item of changelogCandidates) {
+      if (selected.length >= maxBullets) break;
+      addCandidate(item);
     }
   }
 

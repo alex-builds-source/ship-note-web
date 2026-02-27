@@ -2,7 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [0.1.4] - 2026-02-27
+### Added
+- Destination quality review script (`npm run dogfood:quality`) with generated report at `docs/dogfood/latest/QUALITY_REPORT.md`.
+- Real-world agent workflow guide (`docs/AGENT_RECIPES.md`) for release/social/internal usage.
+- Destination dogfood snapshot generator (`npm run dogfood:destinations`) for ongoing wording regression checks.
+
+### Changed
+- Improved destination output readability by reducing code-style/meta-heavy bullets in social/update modes.
+- Added destination-specific headings and tightened social short output density.
 
 ## [0.1.3] - 2026-02-26
 ### Added

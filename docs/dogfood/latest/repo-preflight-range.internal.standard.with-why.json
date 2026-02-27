@@ -26,14 +26,12 @@
     "title": "# repo-preflight internal release brief",
     "what_shipped": [
       "- Sync package metadata version and add guard test",
-      "- Synced package metadata versioning by aligning `pyproject.toml` with runtime `__version__`.",
+      "- Synced package metadata versioning by aligning pyproject.toml with runtime __version__.",
       "- Added regression coverage to ensure project metadata and package version stay in lockstep."
     ],
     "why_it_matters": [
-      "- Covers `v0.1.10..v0.1.11` with 1 commit-derived item(s).",
-      "- Distills raw commit/changelog data into a concise summary so readers can triage changes faster.",
-      "- Adds 2 changelog item(s) when commit subjects alone miss context.",
-      "- Emphasizes concise internal communication for team context and handoffs."
+      "- This range includes mixed technical updates; review highlights for the main changes.",
+      "- Use this as a handoff summary for team context and planning."
     ],
     "links": [
       "- Repo: https://github.com/alex-builds-source/repo-preflight"
@@ -49,14 +47,14 @@
     },
     {
       "source": "changelog",
-      "text": "Synced package metadata versioning by aligning `pyproject.toml` with runtime `__version__`."
+      "text": "Synced package metadata versioning by aligning pyproject.toml with runtime __version__."
     },
     {
       "source": "changelog",
       "text": "Added regression coverage to ensure project metadata and package version stay in lockstep."
     }
   ],
-  "markdown": "# repo-preflight internal release brief\n\n## Internal highlights\n- Sync package metadata version and add guard test\n- Synced package metadata versioning by aligning `pyproject.toml` with runtime `__version__`.\n- Added regression coverage to ensure project metadata and package version stay in lockstep.\n\n## Why it matters internally\n- Covers `v0.1.10..v0.1.11` with 1 commit-derived item(s).\n- Distills raw commit/changelog data into a concise summary so readers can triage changes faster.\n- Adds 2 changelog item(s) when commit subjects alone miss context.\n- Emphasizes concise internal communication for team context and handoffs.\n\n## References\n- Repo: https://github.com/alex-builds-source/repo-preflight\n",
+  "markdown": "# repo-preflight internal release brief\n\n## Internal highlights\n- Sync package metadata version and add guard test\n- Synced package metadata versioning by aligning pyproject.toml with runtime __version__.\n- Added regression coverage to ensure project metadata and package version stay in lockstep.\n\n## Why it matters internally\n- This range includes mixed technical updates; review highlights for the main changes.\n- Use this as a handoff summary for team context and planning.\n\n## References\n- Repo: https://github.com/alex-builds-source/repo-preflight\n",
   "schemaVersion": "1.0",
   "baseRef": "v0.1.10",
   "targetRef": "v0.1.11",

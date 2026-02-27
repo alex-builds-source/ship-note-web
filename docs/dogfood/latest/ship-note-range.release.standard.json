@@ -26,9 +26,9 @@
     "title": "# ship-note release draft",
     "what_shipped": [
       "- Make why-section optional and ship v0.1.11",
-      "- `--with-why` flag to include `Why it matters` only when explicitly requested.",
-      "- `Why it matters` is no longer included by default in markdown output.",
-      "- Preserved structured payload compatibility by returning `sections.why_it_matters` as an empty list when omitted.",
+      "- --with-why flag to include Why it matters only when explicitly requested.",
+      "- Why it matters is no longer included by default in markdown output.",
+      "- Preserved structured payload compatibility by returning sections.why_it_matters as an empty list when omitted.",
       "- Expanded tests for default omission vs explicit inclusion behavior."
     ],
     "why_it_matters": [],
@@ -46,22 +46,22 @@
     },
     {
       "source": "changelog",
-      "text": "`--with-why` flag to include `Why it matters` only when explicitly requested."
+      "text": "--with-why flag to include Why it matters only when explicitly requested."
     },
     {
       "source": "changelog",
-      "text": "`Why it matters` is no longer included by default in markdown output."
+      "text": "Why it matters is no longer included by default in markdown output."
     },
     {
       "source": "changelog",
-      "text": "Preserved structured payload compatibility by returning `sections.why_it_matters` as an empty list when omitted."
+      "text": "Preserved structured payload compatibility by returning sections.why_it_matters as an empty list when omitted."
     },
     {
       "source": "changelog",
       "text": "Expanded tests for default omission vs explicit inclusion behavior."
     }
   ],
-  "markdown": "# ship-note release draft\n\n## What shipped\n- Make why-section optional and ship v0.1.11\n- `--with-why` flag to include `Why it matters` only when explicitly requested.\n- `Why it matters` is no longer included by default in markdown output.\n- Preserved structured payload compatibility by returning `sections.why_it_matters` as an empty list when omitted.\n- Expanded tests for default omission vs explicit inclusion behavior.\n\n## Links\n- Repo: https://github.com/alex-builds-source/ship-note\n",
+  "markdown": "# ship-note release draft\n\n## What shipped\n- Make why-section optional and ship v0.1.11\n- --with-why flag to include Why it matters only when explicitly requested.\n- Why it matters is no longer included by default in markdown output.\n- Preserved structured payload compatibility by returning sections.why_it_matters as an empty list when omitted.\n- Expanded tests for default omission vs explicit inclusion behavior.\n\n## Links\n- Repo: https://github.com/alex-builds-source/ship-note\n",
   "schemaVersion": "1.0",
   "baseRef": "v0.1.10",
   "targetRef": "v0.1.11",

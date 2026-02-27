@@ -19,17 +19,13 @@
     "raw_commit_count": 1,
     "selected_commit_count": 1,
     "commit_items_used": 1,
-    "changelog_items_used": 4,
-    "bullet_line_count": 5
+    "changelog_items_used": 0,
+    "bullet_line_count": 1
   },
   "sections": {
     "title": "# ship-note update draft",
     "what_shipped": [
-      "- Make why-section optional and ship v0.1.11",
-      "- `--with-why` flag to include `Why it matters` only when explicitly requested.",
-      "- `Why it matters` is no longer included by default in markdown output.",
-      "- Preserved structured payload compatibility by returning `sections.why_it_matters` as an empty list when omitted.",
-      "- Expanded tests for default omission vs explicit inclusion behavior."
+      "- Make why-section optional and ship v0.1.11"
     ],
     "why_it_matters": [],
     "links": [
@@ -43,25 +39,9 @@
       "sha": "ecd4fb3059171597aef4b707b0b290748293fe9b",
       "type": "other",
       "scope": "general"
-    },
-    {
-      "source": "changelog",
-      "text": "`--with-why` flag to include `Why it matters` only when explicitly requested."
-    },
-    {
-      "source": "changelog",
-      "text": "`Why it matters` is no longer included by default in markdown output."
-    },
-    {
-      "source": "changelog",
-      "text": "Preserved structured payload compatibility by returning `sections.why_it_matters` as an empty list when omitted."
-    },
-    {
-      "source": "changelog",
-      "text": "Expanded tests for default omission vs explicit inclusion behavior."
     }
   ],
-  "markdown": "# ship-note update draft\n\n## Update highlights\n- Make why-section optional and ship v0.1.11\n- `--with-why` flag to include `Why it matters` only when explicitly requested.\n- `Why it matters` is no longer included by default in markdown output.\n- Preserved structured payload compatibility by returning `sections.why_it_matters` as an empty list when omitted.\n- Expanded tests for default omission vs explicit inclusion behavior.\n\n## References\n- Repo: https://github.com/alex-builds-source/ship-note\n",
+  "markdown": "# ship-note update draft\n\n## Update highlights\n- Make why-section optional and ship v0.1.11\n\n## References\n- Repo: https://github.com/alex-builds-source/ship-note\n",
   "schemaVersion": "1.0",
   "baseRef": "v0.1.10",
   "targetRef": "v0.1.11",

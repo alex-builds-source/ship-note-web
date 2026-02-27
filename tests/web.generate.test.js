@@ -105,6 +105,6 @@ test("renderDraft why section is impact-focused, not placeholder wording", () =>
     releaseUrl: null,
   });
 
-  assert.match(out, /Highlights .*feature addition.*bug fix/i);
+  assert.match(out, /most meaningful user-facing changes are .*feature addition.*bug fix/i);
   assert.doesNotMatch(out, /with changelog context when available/i);
 });
