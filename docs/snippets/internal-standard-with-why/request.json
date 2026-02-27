@@ -1,0 +1,8 @@
+{
+  "repo": "alex-builds-source/ship-note",
+  "preset": "standard",
+  "destination": "internal",
+  "includeWhy": true,
+  "baseRef": "v0.1.10",
+  "targetRef": "v0.1.11"
+}

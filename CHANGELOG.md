@@ -3,11 +3,21 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+
+## [0.1.3] - 2026-02-26
 ### Added
-- Canonical agent-integration fixture at `docs/fixtures/ship-note.schema.v1.json`.
-- Snippet generator script (`scripts/generate-snippets.mjs`) for `curl`, Python, and JavaScript examples.
-- Generated integration docs/artifacts (`docs/AGENT_INTEGRATION.md`, `docs/snippets/*`).
-- Drift check test + scripts (`snippets:generate`, `snippets:check`).
+- Multi-scenario fixture index (`docs/fixtures/index.json`) with canonical scenarios:
+  - `release-standard`
+  - `social-short`
+  - `internal-standard-with-why`
+- Fixture-driven snippet generator supporting per-scenario outputs (`docs/snippets/<fixture-id>/*`).
+- Generated integration guide now composes all scenarios (`docs/AGENT_INTEGRATION.md`).
+- Fixture contract guard tests (`tests/fixtures.test.js`) for required keys and duplicate-ID protection.
+- Drift guard extended to ensure legacy root-level snippet files are removed.
+
+### Changed
+- Snippet docs workflow now uses fixture index + scenario files as source-of-truth.
+- `snippets:generate` now writes scenario bundles + composed guide in one pass.
 
 ## [0.1.2] - 2026-02-26
 ### Added

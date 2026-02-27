@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "fixtures": [
+    {
+      "id": "release-standard",
+      "path": "schema.v1.release.standard.json",
+      "description": "Canonical release-note generation for standard destination.",
+      "tags": ["release", "standard", "default"]
+    },
+    {
+      "id": "social-short",
+      "path": "schema.v1.social.short.json",
+      "description": "Concise social update output with short preset.",
+      "tags": ["social", "short", "compact"]
+    },
+    {
+      "id": "internal-standard-with-why",
+      "path": "schema.v1.internal.standard.with-why.json",
+      "description": "Internal update with rationale section explicitly enabled.",
+      "tags": ["internal", "standard", "with-why"]
+    }
+  ]
+}

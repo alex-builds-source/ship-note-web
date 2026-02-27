@@ -52,9 +52,18 @@ npm run snippets:generate
 npm run snippets:check
 ```
 
+Fixture sources:
+- `docs/fixtures/index.json`
+- `docs/fixtures/schema.v1.*.json`
+
 Generated outputs:
 - `docs/AGENT_INTEGRATION.md`
-- `docs/snippets/*`
+- `docs/snippets/<fixture-id>/*`
+
+To add a scenario:
+1. create fixture file in `docs/fixtures/`
+2. register it in `docs/fixtures/index.json`
+3. run `npm run snippets:generate`
 
 ## Benchmark harness
 
