@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0",
+  "service": {
+    "name": "ship-note-web",
+    "endpoint": "https://ship-note-web.pages.dev/api/generate"
+  },
+  "request": {
+    "repo": "alex-builds-source/ship-note",
+    "preset": "standard",
+    "destination": "release",
+    "includeWhy": false,
+    "baseRef": "v0.1.10",
+    "targetRef": "v0.1.11",
+    "releaseUrl": "https://github.com/alex-builds-source/ship-note/releases/tag/v0.1.11"
+  },
+  "response": {
+    "ok": true,
+    "schema_version": "1.0",
+    "repo": {
+      "name": "alex-builds-source/ship-note",
+      "url": "https://github.com/alex-builds-source/ship-note"
+    },
+    "range": {
+      "base_ref": "v0.1.10",
+      "target_ref": "v0.1.11",
+      "range_spec": "v0.1.10..v0.1.11"
+    },
+    "options": {
+      "preset": "standard",
+      "group_by": "type",
+      "destination": "release",
+      "include_why": false
+    },
+    "stats": {
+      "raw_commit_count": 1,
+      "selected_commit_count": 1,
+      "commit_items_used": 1,
+      "changelog_items_used": 0,
+      "bullet_line_count": 1
+    },
+    "sections": {
+      "title": "# ship-note release draft",
+      "what_shipped": [
+        "- Make why-section optional and ship v0.1.11"
+      ],
+      "why_it_matters": [],
+      "links": [
+        "- Repo: https://github.com/alex-builds-source/ship-note",
+        "- Release: https://github.com/alex-builds-source/ship-note/releases/tag/v0.1.11"
+      ]
+    },
+    "items": [
+      {
+        "source": "commit",
+        "text": "make why-section optional and ship v0.1.11",
+        "sha": "a1b2c3d",
+        "type": "other",
+        "scope": "general"
+      }
+    ],
+    "markdown": "# ship-note release draft\n\n## What shipped\n- Make why-section optional and ship v0.1.11\n\n## Links\n- Repo: https://github.com/alex-builds-source/ship-note\n- Release: https://github.com/alex-builds-source/ship-note/releases/tag/v0.1.11\n"
+  }
+}

@@ -7,7 +7,9 @@
     "test": "node --test",
     "dev": "wrangler pages dev public --compatibility-date=2026-02-25",
     "benchmark": "node benchmark/run-benchmark.mjs",
-    "benchmark:v2": "node benchmark/run-benchmark-v2.mjs"
+    "benchmark:v2": "node benchmark/run-benchmark-v2.mjs",
+    "snippets:generate": "node scripts/generate-snippets.mjs",
+    "snippets:check": "node scripts/generate-snippets.mjs --check"
   },
   "devDependencies": {
     "wrangler": "^4.57.0"

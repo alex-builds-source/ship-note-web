@@ -36,12 +36,25 @@ Then open the local Pages dev URL printed by Wrangler.
   - plus transitional legacy aliases (`schemaVersion`, `baseRef`, `targetRef`, `rangeSpec`, `commitCount`)
 
 See `docs/API.md` for details.
+See `docs/AGENT_INTEGRATION.md` for generated copy-paste examples.
 
 ## Testing
 
 ```bash
 npm test
+npm run snippets:check
 ```
+
+## Snippet generation (agent examples)
+
+```bash
+npm run snippets:generate
+npm run snippets:check
+```
+
+Generated outputs:
+- `docs/AGENT_INTEGRATION.md`
+- `docs/snippets/*`
 
 ## Benchmark harness
 

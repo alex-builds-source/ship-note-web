@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+### Added
+- Canonical agent-integration fixture at `docs/fixtures/ship-note.schema.v1.json`.
+- Snippet generator script (`scripts/generate-snippets.mjs`) for `curl`, Python, and JavaScript examples.
+- Generated integration docs/artifacts (`docs/AGENT_INTEGRATION.md`, `docs/snippets/*`).
+- Drift check test + scripts (`snippets:generate`, `snippets:check`).
+
 ## [0.1.2] - 2026-02-26
 ### Added
 - `includeWhy` / `include_why` request option for explicitly including `Why it matters` section.

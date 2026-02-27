@@ -120,3 +120,4 @@ For transition safety, responses also include legacy camelCase aliases:
 - Supports public GitHub repositories.
 - Set optional `GITHUB_TOKEN` in Cloudflare Pages for higher GitHub API budget.
 - Response header includes `x-ship-note-schema`.
+- Generated agent examples are available in `docs/AGENT_INTEGRATION.md`.
