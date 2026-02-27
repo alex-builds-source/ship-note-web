@@ -72,6 +72,8 @@ test("renderDraft supports destination-specific title", () => {
   });
 
   assert.match(out, /^# demo social update/m);
+  assert.match(out, /## Post-ready bullets/);
+  assert.match(out, /## Source links/);
 });
 
 test("renderDraft omits why section by default", () => {

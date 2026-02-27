@@ -37,12 +37,14 @@ Then open the local Pages dev URL printed by Wrangler.
 
 See `docs/API.md` for details.
 See `docs/AGENT_INTEGRATION.md` for generated copy-paste examples.
+See `docs/AGENT_RECIPES.md` for real-world workflow recipes.
 
 ## Testing
 
 ```bash
 npm test
 npm run snippets:check
+npm run dogfood:destinations
 ```
 
 ## Snippet generation (agent examples)
@@ -64,6 +66,17 @@ To add a scenario:
 1. create fixture file in `docs/fixtures/`
 2. register it in `docs/fixtures/index.json`
 3. run `npm run snippets:generate`
+
+## Destination dogfood snapshots
+
+```bash
+npm run dogfood:destinations
+```
+
+Outputs:
+- `docs/dogfood/latest/SUMMARY.md`
+- `docs/dogfood/latest/*.md`
+- `docs/dogfood/latest/*.json`
 
 ## Benchmark harness
 

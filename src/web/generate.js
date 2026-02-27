@@ -134,9 +134,48 @@ function makeTitle(repo, preset, destination) {
 }
 
 function maxBulletsFor(preset, destination) {
-  if (preset === "short") return destination === "social" ? 3 : 4;
-  if (destination === "social") return 5;
+  if (preset === "short") {
+    if (destination === "social") return 2;
+    if (destination === "internal") return 4;
+    return 3;
+  }
+
+  if (destination === "social") return 4;
+  if (destination === "update") return 8;
+  if (destination === "internal") return 8;
   return 10;
+}
+
+function sectionHeadings(destination) {
+  if (destination === "social") {
+    return {
+      what: "## Post-ready bullets",
+      links: "## Source links",
+      why: "## Why this post matters",
+    };
+  }
+
+  if (destination === "internal") {
+    return {
+      what: "## Internal highlights",
+      links: "## References",
+      why: "## Why it matters internally",
+    };
+  }
+
+  if (destination === "update") {
+    return {
+      what: "## Update highlights",
+      links: "## References",
+      why: "## Why this update matters",
+    };
+  }
+
+  return {
+    what: "## What shipped",
+    links: "## Links",
+    why: "## Why it matters",
+  };
 }
 
 function buildWhyLines({ subjects, fromCommit, fromChangelog, rangeLabel, destination }) {
@@ -268,6 +307,8 @@ function buildDraftModel({
     releaseUrl ? `- Release: ${releaseUrl}` : null,
   ].filter(Boolean);
 
+  const headings = sectionHeadings(channel);
+
   const sections = {
     title,
     what_shipped: whatShippedLines,
@@ -278,16 +319,16 @@ function buildDraftModel({
   const markdownParts = [
     title,
     "",
-    "## What shipped",
+    headings.what,
     whatShippedLines.join("\n"),
     "",
   ];
 
   if (includeWhy) {
-    markdownParts.push("## Why it matters", ...whyItMatters, "");
+    markdownParts.push(headings.why, ...whyItMatters, "");
   }
 
-  markdownParts.push("## Links", ...links, "");
+  markdownParts.push(headings.links, ...links, "");
   const markdown = markdownParts.join("\n");
 
   return {

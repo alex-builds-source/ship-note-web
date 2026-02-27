@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0",
+  "repo": {
+    "name": "alex-builds-source/ship-note",
+    "url": "https://github.com/alex-builds-source/ship-note"
+  },
+  "range": {
+    "base_ref": "v0.1.10",
+    "target_ref": "v0.1.11",
+    "range_spec": "v0.1.10..v0.1.11"
+  },
+  "options": {
+    "preset": "short",
+    "group_by": "type",
+    "destination": "social",
+    "include_why": false
+  },
+  "stats": {
+    "raw_commit_count": 1,
+    "selected_commit_count": 1,
+    "commit_items_used": 1,
+    "changelog_items_used": 1,
+    "bullet_line_count": 2
+  },
+  "sections": {
+    "title": "# ship-note social update",
+    "what_shipped": [
+      "- Make why-section optional and ship v0.1.11",
+      "- `--with-why` flag to include `Why it matters` only when explicitly requested."
+    ],
+    "why_it_matters": [],
+    "links": [
+      "- Repo: https://github.com/alex-builds-source/ship-note"
+    ]
+  },
+  "items": [
+    {
+      "source": "commit",
+      "text": "Make why-section optional and ship v0.1.11",
+      "sha": "ecd4fb3059171597aef4b707b0b290748293fe9b",
+      "type": "other",
+      "scope": "general"
+    },
+    {
+      "source": "changelog",
+      "text": "`--with-why` flag to include `Why it matters` only when explicitly requested."
+    }
+  ],
+  "markdown": "# ship-note social update\n\n## Post-ready bullets\n- Make why-section optional and ship v0.1.11\n- `--with-why` flag to include `Why it matters` only when explicitly requested.\n\n## Source links\n- Repo: https://github.com/alex-builds-source/ship-note\n",
+  "schemaVersion": "1.0",
+  "baseRef": "v0.1.10",
+  "targetRef": "v0.1.11",
+  "rangeSpec": "v0.1.10..v0.1.11",
+  "preset": "short",
+  "destination": "social",
+  "includeWhy": false,
+  "commitCount": 1
+}

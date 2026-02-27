@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0",
+  "repo": {
+    "name": "alex-builds-source/repo-preflight",
+    "url": "https://github.com/alex-builds-source/repo-preflight"
+  },
+  "range": {
+    "base_ref": "v0.1.10",
+    "target_ref": "v0.1.11",
+    "range_spec": "v0.1.10..v0.1.11"
+  },
+  "options": {
+    "preset": "short",
+    "group_by": "type",
+    "destination": "social",
+    "include_why": false
+  },
+  "stats": {
+    "raw_commit_count": 1,
+    "selected_commit_count": 1,
+    "commit_items_used": 1,
+    "changelog_items_used": 1,
+    "bullet_line_count": 2
+  },
+  "sections": {
+    "title": "# repo-preflight social update",
+    "what_shipped": [
+      "- Sync package metadata version and add guard test",
+      "- Synced package metadata versioning by aligning `pyproject.toml` with runtime `__version__`."
+    ],
+    "why_it_matters": [],
+    "links": [
+      "- Repo: https://github.com/alex-builds-source/repo-preflight"
+    ]
+  },
+  "items": [
+    {
+      "source": "commit",
+      "text": "Sync package metadata version and add guard test",
+      "sha": "ccdb4900a7ea6ac4887691f14039c2317e74719d",
+      "type": "other",
+      "scope": "general"
+    },
+    {
+      "source": "changelog",
+      "text": "Synced package metadata versioning by aligning `pyproject.toml` with runtime `__version__`."
+    }
+  ],
+  "markdown": "# repo-preflight social update\n\n## Post-ready bullets\n- Sync package metadata version and add guard test\n- Synced package metadata versioning by aligning `pyproject.toml` with runtime `__version__`.\n\n## Source links\n- Repo: https://github.com/alex-builds-source/repo-preflight\n",
+  "schemaVersion": "1.0",
+  "baseRef": "v0.1.10",
+  "targetRef": "v0.1.11",
+  "rangeSpec": "v0.1.10..v0.1.11",
+  "preset": "short",
+  "destination": "social",
+  "includeWhy": false,
+  "commitCount": 1
+}

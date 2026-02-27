@@ -9,7 +9,8 @@
     "benchmark": "node benchmark/run-benchmark.mjs",
     "benchmark:v2": "node benchmark/run-benchmark-v2.mjs",
     "snippets:generate": "node scripts/generate-snippets.mjs",
-    "snippets:check": "node scripts/generate-snippets.mjs --check"
+    "snippets:check": "node scripts/generate-snippets.mjs --check",
+    "dogfood:destinations": "node scripts/dogfood-destinations.mjs"
   },
   "devDependencies": {
     "wrangler": "^4.57.0"
