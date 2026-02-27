@@ -4,6 +4,18 @@ import { resolve } from "node:path";
 const root = resolve(process.cwd());
 const dogfoodDir = resolve(root, "docs/dogfood/latest");
 const outPath = resolve(dogfoodDir, "QUALITY_REPORT.md");
+const outJsonPath = resolve(dogfoodDir, "QUALITY_REPORT.json");
+
+const checkMode = process.argv.includes("--check");
+const jsonMode = process.argv.includes("--json");
+
+function argValue(flag, fallback = null) {
+  const idx = process.argv.indexOf(flag);
+  if (idx < 0) return fallback;
+  return process.argv[idx + 1] ?? fallback;
+}
+
+const minScore = Number(argValue("--min-score", "90"));
 
 const mdFiles = readdirSync(dogfoodDir)
   .filter((name) => name.endsWith(".md") && name !== "SUMMARY.md" && name !== "QUALITY_REPORT.md")
@@ -41,7 +53,16 @@ const rows = mdFiles.map((file) => {
   return { file, ...scoreText(text) };
 });
 
-const avgScore = rows.length ? (rows.reduce((sum, r) => sum + r.score, 0) / rows.length).toFixed(1) : "0.0";
+const avgScoreNum = rows.length ? (rows.reduce((sum, r) => sum + r.score, 0) / rows.length) : 0;
+const avgScore = avgScoreNum.toFixed(1);
+
+const payload = {
+  generated_at_utc: new Date().toISOString(),
+  files_reviewed: rows.length,
+  average_score: Number(avgScore),
+  threshold: minScore,
+  rows,
+};
 
 const lines = [
   "# Destination Dogfood Quality Report",
@@ -50,6 +71,7 @@ const lines = [
   "",
   `- Files reviewed: ${rows.length}`,
   `- Average score: ${avgScore}/100`,
+  `- Threshold: ${minScore}/100`,
   "",
   "## Metrics",
   "| File | Bullets | Long | Codey | Meta | Score |",
@@ -70,4 +92,15 @@ lines.push(
 );
 
 writeFileSync(outPath, lines.join("\n"), "utf8");
-console.log(`wrote ${outPath}`);
+writeFileSync(outJsonPath, `${JSON.stringify(payload, null, 2)}\n`, "utf8");
+
+if (checkMode && avgScoreNum < minScore) {
+  throw new Error(`Average destination quality score ${avgScore}/100 below threshold ${minScore}/100`);
+}
+
+if (jsonMode) {
+  console.log(JSON.stringify(payload, null, 2));
+} else {
+  console.log(`wrote ${outPath}`);
+  console.log(`wrote ${outJsonPath}`);
+}

@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.5] - 2026-02-27
+### Added
+- Destination quality threshold gate (`dogfood:quality:check`) and machine-readable report (`QUALITY_REPORT.json`).
+- Auto-generated tuning backlog (`npm run dogfood:todo` -> `docs/dogfood/latest/TUNING_TODO.md`).
+
+### Changed
+- Social/update outputs now filter meta-heavy wording more aggressively.
+- Social destination now prefers a single high-value source link to reduce clutter.
+
 ## [0.1.4] - 2026-02-27
 ### Added
 - Destination quality review script (`npm run dogfood:quality`) with generated report at `docs/dogfood/latest/QUALITY_REPORT.md`.

@@ -1,6 +1,6 @@
 {
   "name": "ship-note-web",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "private": true,
   "type": "module",
   "scripts": {
@@ -11,7 +11,9 @@
     "snippets:generate": "node scripts/generate-snippets.mjs",
     "snippets:check": "node scripts/generate-snippets.mjs --check",
     "dogfood:destinations": "node scripts/dogfood-destinations.mjs",
-    "dogfood:quality": "node scripts/review-dogfood-quality.mjs"
+    "dogfood:quality": "node scripts/review-dogfood-quality.mjs",
+    "dogfood:quality:check": "node scripts/review-dogfood-quality.mjs --check --min-score 90",
+    "dogfood:todo": "node scripts/plan-dogfood-tuning.mjs"
   },
   "devDependencies": {
     "wrangler": "^4.57.0"

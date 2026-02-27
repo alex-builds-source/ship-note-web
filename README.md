@@ -72,6 +72,8 @@ To add a scenario:
 ```bash
 npm run dogfood:destinations
 npm run dogfood:quality
+npm run dogfood:quality:check
+npm run dogfood:todo
 ```
 
 Outputs:

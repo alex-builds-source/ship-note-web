@@ -1,0 +1,80 @@
+{
+  "generated_at_utc": "2026-02-27T19:56:41.972Z",
+  "files_reviewed": 9,
+  "average_score": 94.8,
+  "threshold": 90,
+  "rows": [
+    {
+      "file": "TUNING_TODO.md",
+      "bullets": 22,
+      "longBullets": 0,
+      "codeyBullets": 0,
+      "metaBullets": 4,
+      "score": 93
+    },
+    {
+      "file": "repo-preflight-range.internal.standard.with-why.md",
+      "bullets": 6,
+      "longBullets": 0,
+      "codeyBullets": 0,
+      "metaBullets": 1,
+      "score": 93
+    },
+    {
+      "file": "repo-preflight-range.release.standard.md",
+      "bullets": 4,
+      "longBullets": 0,
+      "codeyBullets": 0,
+      "metaBullets": 1,
+      "score": 90
+    },
+    {
+      "file": "repo-preflight-range.social.short.md",
+      "bullets": 2,
+      "longBullets": 0,
+      "codeyBullets": 0,
+      "metaBullets": 0,
+      "score": 100
+    },
+    {
+      "file": "repo-preflight-range.update.standard.md",
+      "bullets": 2,
+      "longBullets": 0,
+      "codeyBullets": 0,
+      "metaBullets": 0,
+      "score": 100
+    },
+    {
+      "file": "ship-note-range.internal.standard.with-why.md",
+      "bullets": 8,
+      "longBullets": 0,
+      "codeyBullets": 0,
+      "metaBullets": 2,
+      "score": 90
+    },
+    {
+      "file": "ship-note-range.release.standard.md",
+      "bullets": 6,
+      "longBullets": 0,
+      "codeyBullets": 0,
+      "metaBullets": 2,
+      "score": 87
+    },
+    {
+      "file": "ship-note-range.social.short.md",
+      "bullets": 2,
+      "longBullets": 0,
+      "codeyBullets": 0,
+      "metaBullets": 0,
+      "score": 100
+    },
+    {
+      "file": "ship-note-range.update.standard.md",
+      "bullets": 2,
+      "longBullets": 0,
+      "codeyBullets": 0,
+      "metaBullets": 0,
+      "score": 100
+    }
+  ]
+}

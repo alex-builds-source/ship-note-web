@@ -371,10 +371,15 @@ function buildDraftModel({
   });
 
   const title = makeTitle(repo, mode, channel);
-  const links = [
-    `- Repo: ${repoUrl}`,
-    releaseUrl ? `- Release: ${releaseUrl}` : null,
-  ].filter(Boolean);
+  let links;
+  if (channel === "social") {
+    links = [releaseUrl ? `- Release: ${releaseUrl}` : `- Repo: ${repoUrl}`];
+  } else {
+    links = [
+      `- Repo: ${repoUrl}`,
+      releaseUrl ? `- Release: ${releaseUrl}` : null,
+    ].filter(Boolean);
+  }
 
   const headings = sectionHeadings(channel);
 
