@@ -25,7 +25,7 @@
   "sections": {
     "title": "# ship-note social update",
     "what_shipped": [
-      "- Make why-section optional and ship v0.1.11"
+      "- Improved why-section optional and ship v0.1.11"
     ],
     "why_it_matters": [],
     "links": [
@@ -35,13 +35,13 @@
   "items": [
     {
       "source": "commit",
-      "text": "Make why-section optional and ship v0.1.11",
+      "text": "Improved why-section optional and ship v0.1.11",
       "sha": "ecd4fb3059171597aef4b707b0b290748293fe9b",
       "type": "other",
       "scope": "general"
     }
   ],
-  "markdown": "# ship-note social update\n\n## Post-ready bullets\n- Make why-section optional and ship v0.1.11\n\n## Source links\n- Repo: https://github.com/alex-builds-source/ship-note\n",
+  "markdown": "# ship-note social update\n\n## Post-ready bullets\n- Improved why-section optional and ship v0.1.11\n\n## Source links\n- Repo: https://github.com/alex-builds-source/ship-note\n",
   "schemaVersion": "1.0",
   "baseRef": "v0.1.10",
   "targetRef": "v0.1.11",

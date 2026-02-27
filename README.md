@@ -81,8 +81,12 @@ npm run dogfood:todo
 Outputs:
 - `docs/dogfood/latest/SUMMARY.md`
 - `docs/dogfood/latest/QUALITY_REPORT.md`
+- `docs/dogfood/latest/QUALITY_REPORT.json`
+- `docs/dogfood/latest/TUNING_TODO.md`
 - `docs/dogfood/latest/*.md`
 - `docs/dogfood/latest/*.json`
+
+Scoring details: `docs/dogfood/QUALITY_SCORING.md`
 
 ## Deployment housekeeping
 

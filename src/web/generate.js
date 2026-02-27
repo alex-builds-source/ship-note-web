@@ -245,6 +245,18 @@ function normalizeOutputText(text, destination) {
     .replace(/\s+/g, " ")
     .trim();
 
+  out = out.replace(/[.;]\s*$/, "");
+
+  if (destination === "social" || destination === "update" || destination === "internal") {
+    const lowered = out.toLowerCase();
+    if (lowered.startsWith("add ")) out = `Added ${out.slice(4)}`;
+    else if (lowered.startsWith("fix ")) out = `Fixed ${out.slice(4)}`;
+    else if (lowered.startsWith("remove ")) out = `Removed ${out.slice(7)}`;
+    else if (lowered.startsWith("make ")) out = `Improved ${out.slice(5)}`;
+
+    out = out.charAt(0).toUpperCase() + out.slice(1);
+  }
+
   if (destination === "social" && out.length > 95) {
     out = `${out.slice(0, 92)}...`;
   } else if (destination === "update" && out.length > 120) {

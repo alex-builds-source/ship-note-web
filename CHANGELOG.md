@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.7] - 2026-02-27
+### Added
+- Destination quality scoring docs (`docs/dogfood/QUALITY_SCORING.md`).
+- Golden destination snapshot test coverage (`tests/dogfood.snapshots.test.js`).
+
+### Changed
+- Destination output normalization now rewrites commit-centric phrasing into more audience-facing text for social/update/internal modes.
+- Added destination quality artifacts (`QUALITY_REPORT.json`, `TUNING_TODO.md`) to ongoing tuning workflow.
+
 ## [0.1.6] - 2026-02-27
 ### Added
 - Operations guide (`docs/OPERATIONS.md`) for deploy wrappers, quality gates, and cleanup workflow.

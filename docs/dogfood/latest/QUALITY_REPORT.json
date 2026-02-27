@@ -1,9 +1,17 @@
 {
-  "generated_at_utc": "2026-02-27T20:04:19.976Z",
-  "files_reviewed": 9,
-  "average_score": 94.9,
+  "generated_at_utc": "2026-02-27T20:12:02.003Z",
+  "files_reviewed": 10,
+  "average_score": 95.3,
   "threshold": 90,
   "rows": [
+    {
+      "file": "REVIEW_NOTES.md",
+      "bullets": 21,
+      "longBullets": 0,
+      "codeyBullets": 1,
+      "metaBullets": 0,
+      "score": 99
+    },
     {
       "file": "TUNING_TODO.md",
       "bullets": 25,
