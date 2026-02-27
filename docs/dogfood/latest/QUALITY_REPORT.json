@@ -1,16 +1,16 @@
 {
-  "generated_at_utc": "2026-02-27T19:56:41.972Z",
+  "generated_at_utc": "2026-02-27T20:04:19.976Z",
   "files_reviewed": 9,
-  "average_score": 94.8,
+  "average_score": 94.9,
   "threshold": 90,
   "rows": [
     {
       "file": "TUNING_TODO.md",
-      "bullets": 22,
+      "bullets": 25,
       "longBullets": 0,
       "codeyBullets": 0,
       "metaBullets": 4,
-      "score": 93
+      "score": 94
     },
     {
       "file": "repo-preflight-range.internal.standard.with-why.md",

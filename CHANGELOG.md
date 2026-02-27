@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.6] - 2026-02-27
+### Added
+- Operations guide (`docs/OPERATIONS.md`) for deploy wrappers, quality gates, and cleanup workflow.
+- Cloudflare deployment housekeeping script (`scripts/cleanup-deployments.sh`) with dry-run default.
+- CI workflow update to enforce Node tests + snippets check + destination quality threshold.
+
+### Changed
+- README now links operational workflow docs.
+- Delivery process now includes explicit non-interactive-safe wrangler path in project docs.
+
 ## [0.1.5] - 2026-02-27
 ### Added
 - Destination quality threshold gate (`dogfood:quality:check`) and machine-readable report (`QUALITY_REPORT.json`).

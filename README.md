@@ -38,6 +38,7 @@ Then open the local Pages dev URL printed by Wrangler.
 See `docs/API.md` for details.
 See `docs/AGENT_INTEGRATION.md` for generated copy-paste examples.
 See `docs/AGENT_RECIPES.md` for real-world workflow recipes.
+See `docs/OPERATIONS.md` for deploy/cleanup and quality-gate workflow.
 
 ## Testing
 
@@ -45,6 +46,7 @@ See `docs/AGENT_RECIPES.md` for real-world workflow recipes.
 npm test
 npm run snippets:check
 npm run dogfood:destinations
+npm run dogfood:quality:check
 ```
 
 ## Snippet generation (agent examples)
@@ -81,6 +83,15 @@ Outputs:
 - `docs/dogfood/latest/QUALITY_REPORT.md`
 - `docs/dogfood/latest/*.md`
 - `docs/dogfood/latest/*.json`
+
+## Deployment housekeeping
+
+List and prune old direct-upload deployments (dry run by default):
+
+```bash
+scripts/cleanup-deployments.sh --keep 3 --dry-run
+scripts/cleanup-deployments.sh --keep 3 --apply
+```
 
 ## Benchmark harness
 

@@ -6,7 +6,7 @@ on:
   pull_request:
 
 jobs:
-  test-and-scan:
+  quality-and-tests:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -14,23 +14,26 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Set up Node
+        uses: actions/setup-node@v4
         with:
-          python-version: "3.12"
+          node-version: "22"
+          cache: "npm"
 
-      - name: Install test deps
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install pytest
+      - name: Install deps
+        run: npm ci
 
-      - name: Run tests (if present)
-        run: |
-          if ls tests/test_*.py >/dev/null 2>&1; then
-            pytest -q
-          else
-            echo "No tests found; skipping pytest"
-          fi
+      - name: Run tests
+        run: npm test
+
+      - name: Verify generated snippets are up to date
+        run: npm run snippets:check
+
+      - name: Regenerate destination dogfood snapshots
+        run: npm run dogfood:destinations
+
+      - name: Enforce destination quality threshold
+        run: npm run dogfood:quality:check
 
       - name: Run gitleaks
         uses: gitleaks/gitleaks-action@v2
